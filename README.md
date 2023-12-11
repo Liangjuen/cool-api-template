@@ -7,4 +7,4 @@
 [![Express](https://img.shields.io/badge/Express-4.18.2-informational?logo=express&color=B1B1B1)](https://expressjs.com/)
 [![Typeorm](https://img.shields.io/badge/Typeorm-^0.3.17-informational?logo=typeorm&color=FFAB00)](https://typeorm.io/#/)
 [![Mysql](https://img.shields.io/badge/Mysql-^8.0.30-informational?logo=mysql&color=36D)](https://www.mysql.com/)
-[![Redis](https://img.shields.io/badge/Redis-^7.0.14-informational?logo=mysql&color=eb2f06)](https://redis.io/)
+[![Redis](https://img.shields.io/badge/Redis-^7.0.14-informational?logo=redis&color=eb2f06)](https://redis.io/)
