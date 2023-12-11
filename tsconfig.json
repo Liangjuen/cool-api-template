@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "es5",
+    "module": "commonjs",      
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "inlineSourceMap":true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "stripInternal": true,
+    "pretty": true,
+    "declaration": true,
+    "noImplicitAny": false,
+    "typeRoots": [ "./typings", "./node_modules/@types"],
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@api/*": ["api/*"],
+      "@core/": ["core/*"],
+      "@classes/*": ["core/classes/*"],
+      "@config/*": ["core/config/*"],
+      "@constants/*": ["core/constants/*"],
+      "@decorators/*": ["core/decorators/*"],
+      "@enums/*": ["core/enums/*"],
+      "@exceptions/*": ["core/exceptions/*"],
+      "@interfaces/*": ["core/interfaces/*"],
+      "@middlewares/*": ["core/middlewares/*"],
+      "@services/*": ["core/services/*"],
+      "@types/*": ["core/types/*"],
+    }
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+    "test"
+  ]
+}

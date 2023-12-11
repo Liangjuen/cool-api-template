@@ -1,0 +1,6 @@
+dist/
+node_modules/
+src/env/.env.production
+src/env/.env.test
+src/env/.env.development
+logs/

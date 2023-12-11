@@ -1,0 +1,6 @@
+dist/
+node_modules/
+env/.env.production
+env/.env.test
+env/.env.development
+logs/
