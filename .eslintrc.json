@@ -3,10 +3,12 @@
         "es2021": true,
         "node": true
     },
+    "parser": "@typescript-eslint/parser", // 定义ESLint的解析器
     "extends": [
         "standard-with-typescript",
         "plugin:prettier/recommended"
     ],
+    "plugins": ["@typescript-eslint"],
     "overrides": [
         {
             "env": {
@@ -25,9 +27,15 @@
         "sourceType": "module",
         "project": ["./tsconfig.json"]
     },
+    "ts-node": {
+        "require": ["tsconfig-paths/register"]
+    },
     "rules": {
         "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/consistent-type-imports": "off",
+        "@typescript-eslint/consistent-type-exports": "off",
         "semi": [2, "never"],
         "prefer-const": "off"
+        // "disable-next-line": "off"
     }
 }
