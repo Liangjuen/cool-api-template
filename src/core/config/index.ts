@@ -1,7 +1,5 @@
-import {  ExpressConfiguration } from './app.config'
+import { CoolAppConfiguration } from './app.config'
 import { LoggerConfiguration } from './logger.config'
+import { configuration } from './configuration'
 
-export {
-    ExpressConfiguration,
-    LoggerConfiguration
-}
+export { configuration, CoolAppConfiguration, LoggerConfiguration }

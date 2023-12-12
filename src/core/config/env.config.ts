@@ -3,16 +3,15 @@ import { existsSync } from 'fs'
 import { config as Dotenv } from 'dotenv'
 import { ENVIRONMENT } from '@enums'
 import {
-    EnvAccessToken,
-    EnvServer,
-    EnvMemoryCache,
-    EnvTypeorm,
-    EnvLog,
-    EnvRedis
- } from '@types'
+	EnvAccessToken,
+	EnvServer,
+	EnvMemoryCache,
+	EnvTypeorm,
+	EnvLog,
+	EnvRedis
+} from '@types'
 
 export class Environment {
-
 	/**
 	 * @description 当前环境
 	 */
@@ -446,7 +445,7 @@ export class Environment {
 		this.environment = process.env.NODE_ENV
 			? process.env.NODE_ENV
 			: ENVIRONMENT.Development
-		const path = dir? dir : `${process.cwd()}/env/.env.${this.environment}`
+		const path = dir ? dir : `${process.cwd()}/env/.env.${this.environment}`
 
 		// 判断路径是否合法
 		if (!existsSync(path)) {
@@ -520,7 +519,7 @@ export class Environment {
 		return this
 	}
 
-		// 判断当前环境:
+	// 判断当前环境:
 	isDev(): boolean {
 		return process.env.NODE_ENV === 'development'
 	}
@@ -535,7 +534,7 @@ export class Environment {
 
 	/**
 	 * @description 导出配置
-	 * @returns 
+	 * @returns
 	 */
 	exports() {
 		return {
@@ -549,7 +548,7 @@ export class Environment {
 			LOGS: this.cluster.LOGS as EnvLog,
 			MEMORY_CACHE: this.cluster.MEMORY_CACHE as EnvMemoryCache,
 			PORT: this.cluster.PORT as number,
-			TYPEORM :this.cluster.TYPEORM as EnvTypeorm,
+			TYPEORM: this.cluster.TYPEORM as EnvTypeorm,
 			URL: this.cluster.URL as string,
 			API_PREFIX: this.cluster.API_PREFIX as string,
 			REDIS: this.cluster.REDIS as EnvRedis,
@@ -576,10 +575,7 @@ export class Environment {
 
 const environment = new Environment()
 
-environment.loads()
-.extracts(process.env)
-.validates()
-.aggregates()
+environment.loads().extracts(process.env).validates().aggregates()
 
 if (!environment.isValid()) environment.exit(environment.errors)
 
