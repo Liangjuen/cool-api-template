@@ -1,9 +1,6 @@
 import { CoolException } from '@exceptions'
+import { Logger } from '@services'
 
-try {
-    const a = new CoolException('error')
-} catch (error) {
-    console.log(error)
-}
+Logger.info('success!')
 
 
