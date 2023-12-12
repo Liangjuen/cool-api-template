@@ -1,6 +1,4 @@
 import Express from 'express'
-import bodyParser from 'body-parser'
-import Cors from 'cors'
 
 export class ExpressConfiguration {
 	/**

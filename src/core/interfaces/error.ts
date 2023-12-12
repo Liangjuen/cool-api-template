@@ -1,4 +1,4 @@
-import { type ValidationErrorItem } from 'joi'
+import { ValidationErrorItem } from 'joi'
 
 /**
  * 定义通用错误接口

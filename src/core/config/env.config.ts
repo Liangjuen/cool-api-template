@@ -451,7 +451,7 @@ export class Environment {
 	 */
 	loads() {
 		this.environment = process.env.NODE_ENV
-			? ENVIRONMENT[process.env.NODE_ENV as ENVIRONMENT]
+			? process.env.NODE_ENV
 			: ENVIRONMENT.Development
 		const path = `${process.cwd()}/src/env/.env.${this.environment}`
 
@@ -538,7 +538,6 @@ export class Environment {
 	 * @description 使用错误消息退出当前进程
 	 * @param messages
 	 */
-	// eslint-disable-next-line prettier/prettier
 	exit(messages: string | string[]): void {
 		if (Array.isArray(messages)) {
 			process.stdout.write([''].concat(messages).join('\n'))
@@ -557,37 +556,37 @@ export const environment = new Environment()
 
 if (!environment.isValid()) environment.exit(environment.errors)
 
-const ACCESS_TOKEN = environment.cluster.ACCESS_TOKEN as EnvAccessToken
-const SERVER = environment.cluster.SERVER as EnvServer
-const AUTHORIZED = environment.cluster.AUTHORIZED as string
-const CDN = environment.cluster.CDN as string
-const CONTENT_TYPE = environment.cluster.CONTENT_TYPE as string
-const DOMAIN = environment.cluster.DOMAINE as string
-const ENV = environment.cluster.ENV as string
-const LOGS = environment.cluster.LOGS as EnvLog
-const MEMORY_CACHE = environment.cluster.MEMORY_CACHE as EnvMemoryCache
-const PORT = environment.cluster.PORT as number
-const TYPEORM = environment.cluster.TYPEORM as EnvTypeorm
-const URL = environment.cluster.URL as string
-const API_PREFIX = environment.cluster.API_PREFIX as string
-const REDIS = environment.cluster.REDIS as EnvRedis
+// const ACCESS_TOKEN = environment.cluster.ACCESS_TOKEN as EnvAccessToken
+// const SERVER = environment.cluster.SERVER as EnvServer
+// const AUTHORIZED = environment.cluster.AUTHORIZED as string
+// const CDN = environment.cluster.CDN as string
+// const CONTENT_TYPE = environment.cluster.CONTENT_TYPE as string
+// const DOMAIN = environment.cluster.DOMAINE as string
+// const ENV = environment.cluster.ENV as string
+// const LOGS = environment.cluster.LOGS as EnvLog
+// const MEMORY_CACHE = environment.cluster.MEMORY_CACHE as EnvMemoryCache
+// const PORT = environment.cluster.PORT as number
+// const TYPEORM = environment.cluster.TYPEORM as EnvTypeorm
+// const URL = environment.cluster.URL as string
+// const API_PREFIX = environment.cluster.API_PREFIX as string
+// const REDIS = environment.cluster.REDIS as EnvRedis
 
-export {
-	ACCESS_TOKEN,
-	SERVER,
-	AUTHORIZED,
-	CDN,
-	CONTENT_TYPE,
-	DOMAIN,
-	ENV,
-	LOGS,
-	MEMORY_CACHE,
-	PORT,
-	TYPEORM,
-	URL,
-	API_PREFIX,
-	REDIS
-}
+// export {
+// 	ACCESS_TOKEN,
+// 	SERVER,
+// 	AUTHORIZED,
+// 	CDN,
+// 	CONTENT_TYPE,
+// 	DOMAIN,
+// 	ENV,
+// 	LOGS,
+// 	MEMORY_CACHE,
+// 	PORT,
+// 	TYPEORM,
+// 	URL,
+// 	API_PREFIX,
+// 	REDIS
+// }
 
 // 判断当前环境:
 

@@ -2,11 +2,26 @@
   "name": "cool-api-template",
   "version": "0.0.1",
   "description": "",
-  "main": "app.js",
+  "main": "./dist/api/bootstrap.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc && tsc-alias",
+    "start": "ts-node -r tsconfig-paths/register src/api/bootstrap.ts"
   },
   "author": "",
+  "_moduleAliases": {
+    "@api": "dist/api",
+    "@core": "dist/core",
+    "@classes": "dist/core/classes",
+    "@config": "dist/core/config",
+    "@constants": "dist/core/constants",
+    "@decorators": "dist/core/decorators",
+    "@enums": "dist/core/enums",
+    "@exceptions": "dist/core/exceptions",
+    "@interfaces": "dist/core/interfaces",
+    "@middlewares": "dist/core/middlewares",
+    "@services": "dist/core/services",
+    "@types": "dist/core/types"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.10.4",
@@ -20,6 +35,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "prettier": "^3.1.1",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   },
@@ -38,7 +54,6 @@
     "express-useragent": "^1.0.15",
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
-    "module-alias": "^2.2.3",
     "mysql2": "^3.6.5",
     "redis": "^4.6.10",
     "reflect-metadata": "^0.1.13",

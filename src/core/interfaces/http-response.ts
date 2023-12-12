@@ -1,5 +1,5 @@
-import { type IEntity } from './entity'
-import { type APICode, type APIMessage } from '@enums'
+import { IEntity } from './entity'
+import { APICode, APIMessage } from '@enums'
 
 export interface IResponse extends Response {
 	locals: {
