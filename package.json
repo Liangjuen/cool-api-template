@@ -5,27 +5,16 @@
   "main": "./dist/api/bootstrap.js",
   "scripts": {
     "build": "tsc && tsc-alias",
-    "start": "ts-node -r tsconfig-paths/register src/api/bootstrap.ts"
+    "start": "cross-env NODE_ENV=development nodemon src/api/bootstrap.ts",
+    "start:prod": "cross-env NODE_ENV=production tsc && tsc-alias && node dist/api/bootstrap.js",
+    "start:test": "cross-env NODE_ENV=test tsc && tsc-alias && node dist/api/bootstrap.js"
   },
   "author": "",
-  "_moduleAliases": {
-    "@api": "dist/api",
-    "@core": "dist/core",
-    "@classes": "dist/core/classes",
-    "@config": "dist/core/config",
-    "@constants": "dist/core/constants",
-    "@decorators": "dist/core/decorators",
-    "@enums": "dist/core/enums",
-    "@exceptions": "dist/core/exceptions",
-    "@interfaces": "dist/core/interfaces",
-    "@middlewares": "dist/core/middlewares",
-    "@services": "dist/core/services",
-    "@types": "dist/core/types"
-  },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "cross-env": "^7.0.3",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^42.0.0",

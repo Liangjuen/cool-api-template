@@ -30,9 +30,11 @@
       "@middlewares": ["core/middlewares"],
       "@middlewares/*": ["core/middlewares/*"],
       "@services": ["core/services"],
-      "@services/": ["core/services/*"],
+      "@services/*": ["core/services/*"],
       "@types": ["core/types"],
       "@types/*": ["core/types/*"],
+      "@utils": ["core/utils"],
+      "@utils/*": ["core/utils/*"],
     }
   },
   "ts-node": {
