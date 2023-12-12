@@ -25,6 +25,8 @@
       "@enums/*": ["core/enums/*"],
       "@exceptions": ["core/exceptions"],
       "@exceptions/*": ["core/exceptions/*"],
+      "@factory": ["core/factory"],
+      "@factory/*": ["core/factory/*"],
       "@interfaces": ["core/interfaces"],
       "@interfaces/*": ["core/interfaces/*"],
       "@middlewares": ["core/middlewares"],
