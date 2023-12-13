@@ -1,6 +1,6 @@
 import { createClient, RedisClientType } from 'redis'
-import { REDIS } from './env.config'
 import { Logger } from '@services/Logger'
+import { REDIS } from './env.config'
 
 const { HOST, PORT, DB } = REDIS
 
@@ -17,7 +17,7 @@ export class RedisConfiguration {
 	/**
 	 * @description 创建 Redis 客户端
 	 */
-	async createClient() {
+	private async createClient() {
 		this.client = createClient({
 			// 这里使用的是默认配置，在生产环境不建议这样，设置 Redis访问控制列表 请查看 https://redis.io/docs/management/security/acl/
 			username: 'default',
@@ -33,6 +33,7 @@ export class RedisConfiguration {
 
 			process.exit(0)
 		})
+		return this
 	}
 
 	/**
@@ -50,3 +51,7 @@ export class RedisConfiguration {
 		}
 	}
 }
+
+const redisClient = new RedisConfiguration()
+
+export { redisClient as Redis }
