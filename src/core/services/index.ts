@@ -1,5 +1,3 @@
 import { Logger } from './Logger'
 
-export {
-    Logger
-}
+export { Logger }
