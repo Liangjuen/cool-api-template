@@ -481,11 +481,9 @@ export class Environment {
 				IS_ACTIVE: this.variables.MEMORY_CACHE,
 				DURATION: this.variables.MEMORY_CACHE_DURATION
 			},
-			SERVER: {
-				PROTOCOL: this.variables.PROTOCOL,
-				DOMAIN: this.variables.DOMAIN,
-				PORT: this.variables.PORT
-			},
+			PROTOCOL: this.variables.PROTOCOL,
+			DOMAIN: this.variables.DOMAIN,
+			PORT: this.variables.PORT,
 			AUTHORIZED: this.variables.AUTHORIZED,
 			ENV: this.environment,
 			LOGS: {
@@ -499,10 +497,12 @@ export class Environment {
 				PORT: this.variables.DB_PORT,
 				PWD: this.variables.DB_PASS,
 				USER: this.variables.DB_USER,
-				SYNC: this.variables.TYPEORM_SYNC && !this.isProd(),
+				SYNC: this.variables.TYPEORM_SYNC,
 				LOG: this.variables.TYPEORM_LOG,
 				CACHE: !this.variables.MEMORY_CACHE && this.variables.TYPEORM_CACHE,
-				ENTITIES: '**/modules/*/entity'
+				ENTITIES: this.isDev()
+					? 'src/api/modules/**/*.entity.ts'
+					: 'dist/api/modules/**/*.entity.js'
 			},
 			URL: `${this.variables.PROTOCOL}://${this.variables.DOMAIN}:${this.variables.PORT}`,
 			API_PREFIX: this.variables.API_PREFIX,
@@ -543,7 +543,7 @@ export class Environment {
 			AUTHORIZED: this.cluster.AUTHORIZED as string,
 			CDN: this.cluster.CDN as string,
 			CONTENT_TYPE: this.cluster.CONTENT_TYPE as string,
-			DOMAIN: this.cluster.DOMAINE as string,
+			DOMAIN: this.cluster.DOMAIN as string,
 			ENV: this.cluster.ENV as string,
 			LOGS: this.cluster.LOGS as EnvLog,
 			MEMORY_CACHE: this.cluster.MEMORY_CACHE as EnvMemoryCache,
