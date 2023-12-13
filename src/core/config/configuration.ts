@@ -1,7 +1,7 @@
-import { TYPEORM, API_PREFIX, DOMAIN } from './env.config'
-import { CoolConfig } from '@interfaces'
+import { API_PREFIX, DOMAIN, PORT } from './env.config'
+import { CoolAppConfig } from '@interfaces'
 
-const defaultConfig: CoolConfig = {
+const defaultConfig: CoolAppConfig = {
 	// 解决跨域
 	cors: true,
 
@@ -15,31 +15,18 @@ const defaultConfig: CoolConfig = {
 	// 接口缓存
 	cache: true,
 
-	// typeorm 数据库连接配置 可查阅: https://typeorm.biunav.com/zh/
-	orm: {
-		type: TYPEORM.TYPE as 'mysql',
-		host: TYPEORM.HOST,
-		port: TYPEORM.PORT,
-		username: TYPEORM.USER,
-		password: TYPEORM.PWD,
-		database: TYPEORM.DB,
-		entities: [TYPEORM.ENTITIES],
-		subscribers: [TYPEORM.SUBSCRIBERS],
-		synchronize: TYPEORM.SYNC,
-		logging: TYPEORM.LOG,
-		cache: TYPEORM.CACHE
-	},
-
 	// winston 日志
 	log: true,
 
 	// 接口前缀
 	prefix: API_PREFIX,
 
-	domain: DOMAIN
+	domain: DOMAIN,
+
+	port: PORT
 }
 
-export const configuration = (opt?: CoolConfig): CoolConfig => {
+export const configuration = (opt?: CoolAppConfig): CoolAppConfig => {
 	if (!opt) return defaultConfig
 	return { ...defaultConfig, ...opt }
 }
