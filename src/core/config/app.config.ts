@@ -1,108 +1,67 @@
-import Express, { RequestHandler, Router } from 'express'
-import bodyParser from 'body-parser'
-import Hpp from 'hpp'
+import Express from 'express'
 import Cors from 'cors'
-import RateLimit from 'express-rate-limit'
-import Helmet from 'helmet'
+import { Logger } from '@services'
 
-import Logger from '@middlewares/logger'
-import Catch from '@middlewares/catch'
+import { CoolAppConfig } from '@interfaces'
+import { AppModule } from '@classes'
 
-import { CoolAppOptions } from '@interfaces'
-
-export class CoolAppConfiguration {
+class ExpressConfiguration {
 	/**
-	 * @description Express 应用实例
+	 * @description Express 实例
 	 */
-	application: Express.Application
-
+	instance: Express.Application
 	/**
-	 * @description 路由
+	 * @description 配置
 	 */
-	router: Router
+	options: CoolAppConfig
+
+	constructor() {}
 
 	/**
-	 * @description 系统配置项
+	 * @description 模块
 	 */
-	options: CoolAppOptions
+	module: AppModule
 
 	/**
-	 * @description 跨域处理
+	 * @description 创建应用实例
+	 * @param appModule 模块
+	 * @param options 配置
+	 * @returns
 	 */
-	get cors() {
-		return this.options.cors ? Cors() : []
-	}
-
-	/**
-	 * @description 全局守卫
-	 */
-	get guard(): RequestHandler[] {
-		return []
-	}
-
-	/**
-	 *  请求处理生命周期
-	 *
-	 * - 速率限制
-	 * - 内存缓存
-	 * - 路由
-	 * - 解析器
-	 */
-	get handler(): RequestHandler[] {
-		const { rate } = this.options
-		return [RateLimit(rate), this.router]
-	}
-
-	/* *
-	 * 异常处理生命周期
-	 *
-	 * - 生成输入错误
-	 * - 记录脏错误
-	 * - 输出干净的HTTP友好错误
-	 * - 输出干净404错误
-	 */
-	get catch() {
-		return [Catch.factory, Catch.log, Catch.exit, Catch.notFound]
-	}
-
-	/**
-	 * @description 请求生命周期
-	 *
-	 * @step 跨域处理
-	 * @step 请求解析
-	 * @step 防止请求参数污染
-	 * @step 安全防护
-	 * @step 守卫
-	 * @step 日志
-	 * @step 请求处理
-	 * @step 异常处理
-	 */
-	get containerLifeCycle(): any[] {
-		return [
-			this.cors,
-			bodyParser.json(),
-			bodyParser.urlencoded({ extended: true }),
-			Hpp({ checkBody: false }),
-			Helmet({
-				crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
-				crossOriginResourcePolicy: false
-			}),
-			this.guard,
-			Logger.write,
-			this.handler,
-			this.catch
-		]
-	}
-
-	constructor(router: Router, options: CoolAppOptions) {
-		this.application = Express()
-		this.router = router
+	async setup<T extends AppModule = AppModule>(
+		appModule: any,
+		options: CoolAppConfig
+	): Promise<Express.Application> {
+		this.instance = Express()
 		this.options = options
+		const module = new appModule() as T
+		this.module = module
+		if (this.options.cors) this.instance.use(Cors())
+		return this.instance
 	}
 
-	plug() {
-		this.containerLifeCycle.forEach(item => {
-			this.application.use(item)
+	use(...args: any) {
+		this.instance.use(args)
+		return this.instance
+	}
+
+	/**
+	 * @description 开启监听
+	 * @param port 端口
+	 * @returns
+	 */
+	async listen(port?: number | string) {
+		// use 生命周期
+		this.module.lifeCycle.forEach(item => {
+			this.instance.use(item)
+		})
+
+		return this.instance.listen(port ? port : this.options.port, () => {
+			Logger.info(
+				`🚀 服务器运行在: http://${this.options.domain}:${this.options.port}`
+			)
 		})
 	}
 }
+
+export const Application = new ExpressConfiguration()
