@@ -1,9 +1,7 @@
-import { DataSourceOptions } from 'typeorm'
-
 /**
  * @description Express App 配置
  */
-export interface CoolAppOptions {
+export interface CoolAppConfig {
 	cors?: boolean
 	rate?: {
 		windowMs: number
@@ -15,11 +13,4 @@ export interface CoolAppOptions {
 	prefix?: string
 	domain?: string
 	port?: number
-}
-
-/**
- * @description 系统配置
- */
-export interface CoolConfig extends CoolAppOptions {
-	orm?: DataSourceOptions
 }
