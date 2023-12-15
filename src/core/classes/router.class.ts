@@ -16,14 +16,11 @@ export abstract class BaseRouter {
 	mapRoute(): void {}
 }
 
-interface AppLifeCycle extends RequestHandler {}
-
 /**
  *@description 主路由
  */
 export abstract class AppModule extends BaseRouter {
 	abstract routes: IAppRoute[]
-	abstract lifeCycle: AppLifeCycle[]
 	constructor() {
 		super()
 	}
