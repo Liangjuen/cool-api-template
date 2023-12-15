@@ -63,12 +63,7 @@ export default class Catch {
 	 * @param req 从http.incomingMessage派生的快速请求对象
 	 * @param res 表示响应对象
 	 */
-	static exit(
-		err: IHTTPException,
-		req: Request,
-		res: Response,
-		next: (e: Error, req: Request, res: Response) => void
-	): void {
+	static exit(err: IHTTPException, req: Request, res: Response): void {
 		const { statusCode, statusText, errors, message } = err
 		res.status(statusCode)
 		res.json({

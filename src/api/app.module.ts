@@ -7,6 +7,7 @@ import { configuration } from '@config'
 import Logger from '@middlewares/logger'
 import Catch from '@middlewares/catch'
 import Resolve from '@middlewares/resolve'
+import Cache from '@middlewares/cache'
 
 import { CoolAppConfig, IAppRoute } from '@interfaces'
 import { AppModule as Module } from '@classes'
@@ -40,6 +41,7 @@ export class AppModule extends Module {
 		[
 			`/${this.options.prefix}`,
 			RateLimit(this.options.rate),
+			Cache.listen,
 			this.router,
 			Resolve.output
 		],
