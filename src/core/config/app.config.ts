@@ -56,7 +56,7 @@ class ExpressConfiguration {
 			this.instance.use(item)
 		})
 
-		return this.instance.listen(port ? port : this.options.port, () => {
+		this.instance.listen(port ? port : this.options.port, () => {
 			Logger.info(
 				`🚀 服务器运行在: http://${this.options.domain}:${this.options.port}`
 			)

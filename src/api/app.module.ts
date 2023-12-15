@@ -8,8 +8,9 @@ import Logger from '@middlewares/logger'
 import Catch from '@middlewares/catch'
 
 import { CoolAppConfig } from '@interfaces'
+import { AppModule as Module } from '@classes'
 
-export class AppModule {
+export class AppModule extends Module {
 	readonly options: CoolAppConfig = configuration()
 
 	/**
@@ -21,23 +22,25 @@ export class AppModule {
 	 * @step 安全防护
 	 * @step 守卫
 	 * @step 日志
-	 * @step 请求处理
-	 * @step 异常处理
+	 * @step 请求处理 [接口速率限制, 缓存, 路由(业务处理), 解析器(请求缓存及数据返回)]
+	 * @step 异常处理 [生成输入错误, 记录脏错误, 输出干净的HTTP友好错误, 输出干净404错误]
 	 */
-	get lifeCycle(): any[] {
-		return [
-			bodyParser.json(),
-			bodyParser.urlencoded({ extended: true }),
-			Hpp({ checkBody: false }),
-			Helmet({
-				crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
-				crossOriginResourcePolicy: false
-			}),
-			Logger.write,
-			[RateLimit(this.options.rate)],
-			[Catch.factory, Catch.log, Catch.exit, Catch.notFound]
-		]
-	}
+	lifeCycle = [
+		bodyParser.json(),
+		bodyParser.urlencoded({ extended: true }),
+		Hpp({ checkBody: false }),
+		Helmet({
+			crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+			crossOriginResourcePolicy: false
+		}),
+		Logger.write,
+		[RateLimit(this.options.rate)],
+		[Catch.factory, Catch.log, Catch.exit, Catch.notFound]
+	]
+
 	readonly routes = [{ segment: '/auth/', provider: 'AuthRouter' }]
-	constructor() {}
+
+	constructor() {
+		super()
+	}
 }

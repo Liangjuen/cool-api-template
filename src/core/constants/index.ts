@@ -1,3 +1,5 @@
 import { HttpResponseMessage } from './http-response'
+import { AUTH } from './auth'
+import { LogedLevelName } from './winston'
 
-export { HttpResponseMessage }
+export { HttpResponseMessage, AUTH, LogedLevelName }

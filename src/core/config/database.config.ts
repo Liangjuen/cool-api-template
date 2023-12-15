@@ -40,7 +40,5 @@ const DataBase = new DatabaseConfiguration({
 	cache: TYPEORM.CACHE
 })
 
-console.log(TYPEORM.ENTITIES)
-
 export const DateSource = DataBase.source
 export default DataBase

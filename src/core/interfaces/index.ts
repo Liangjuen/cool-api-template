@@ -3,7 +3,7 @@ import { IHTTPException, IValidationErrorItem } from './http-exception'
 import { IResponse } from './http-response'
 import { IError } from './error'
 import { CoolAppConfig } from './cool'
-import { IRequest } from './request'
+import { IRequest } from './http-request'
 
 export {
 	IEntity,

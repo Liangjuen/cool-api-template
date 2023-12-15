@@ -11,7 +11,6 @@ export abstract class BaseRouter {
 	lifeCycle: any[]
 	constructor() {
 		this.router = Router()
-		this.mapRoute()
 	}
 
 	mapRoute(): void {}
@@ -31,7 +30,11 @@ export abstract class AppModule extends BaseRouter {
 	constructor() {
 		super()
 	}
-	mapRoute(): void {}
+	mapRoute(): void {
+		this.routes.forEach(route => {
+			this.router.use(route.segment)
+		})
+	}
 }
 
 /**
@@ -42,5 +45,4 @@ export abstract class RouteModule extends BaseRouter {
 	constructor() {
 		super()
 	}
-	mapRoute(): void {}
 }
