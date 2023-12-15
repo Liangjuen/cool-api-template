@@ -6,9 +6,12 @@ import Helmet from 'helmet'
 import { configuration } from '@config'
 import Logger from '@middlewares/logger'
 import Catch from '@middlewares/catch'
+import Resolve from '@middlewares/resolve'
 
-import { CoolAppConfig } from '@interfaces'
+import { CoolAppConfig, IAppRoute } from '@interfaces'
 import { AppModule as Module } from '@classes'
+
+import { UserRouter } from '@api/modules/user/user.router'
 
 export class AppModule extends Module {
 	readonly options: CoolAppConfig = configuration()
@@ -22,7 +25,7 @@ export class AppModule extends Module {
 	 * @step 安全防护
 	 * @step 守卫
 	 * @step 日志
-	 * @step 请求处理 [接口速率限制, 缓存, 路由(业务处理), 解析器(请求缓存及数据返回)]
+	 * @step 请求处理 [接口前缀、接口速率限制, 缓存, 路由(业务处理), 解析器(请求缓存及数据返回)]
 	 * @step 异常处理 [生成输入错误, 记录脏错误, 输出干净的HTTP友好错误, 输出干净404错误]
 	 */
 	lifeCycle = [
@@ -34,13 +37,21 @@ export class AppModule extends Module {
 			crossOriginResourcePolicy: false
 		}),
 		Logger.write,
-		[RateLimit(this.options.rate)],
+		[
+			`/${this.options.prefix}`,
+			RateLimit(this.options.rate),
+			this.router,
+			Resolve.output
+		],
 		[Catch.factory, Catch.log, Catch.exit, Catch.notFound]
 	]
 
-	readonly routes = [{ segment: '/auth/', provider: 'AuthRouter' }]
+	routes: IAppRoute[] = [
+		{ segment: '/v1/users', provider: UserRouter, version: '1.0.0' }
+	]
 
 	constructor() {
 		super()
+		this.mapRoute()
 	}
 }
