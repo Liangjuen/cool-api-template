@@ -53,12 +53,17 @@ class ExpressConfiguration {
 	async listen(port?: number | string) {
 		// use 生命周期
 		this.module.lifeCycle.forEach(item => {
-			this.instance.use(item)
+			if (Array.isArray(item)) {
+				this.instance.use(...item)
+			} else {
+				this.instance.use(item)
+			}
 		})
 
 		this.instance.listen(port ? port : this.options.port, () => {
 			Logger.info(
-				`🚀 服务器运行在: http://${this.options.domain}:${this.options.port}`
+				`服务器运行在: http://${this.options.domain}:${this.options.port}`,
+				{ context: 'Application' }
 			)
 		})
 	}

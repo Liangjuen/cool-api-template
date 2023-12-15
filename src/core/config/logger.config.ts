@@ -36,11 +36,13 @@ class customTransport extends Transport {
 	}
 	public log(info: any, next: () => void) {
 		const { stack, timestamp } = info
+
 		const label = `${BASE_COLOR_MAP[info.level]}[${info.label}]\x1b[0m`
 		const message = `${BASE_COLOR_MAP[info.level]}${info.message}\x1b[0m`
 		const level = `${BASE_COLOR_MAP[info.level]}${LEVEL_MAP[info.level]}\x1b[0m`
+		const context = info.context ? `\x1b[33m[${info.context}]\x1b[0m` : ''
 		console.log(
-			`${label} - [${timestamp}] ${level} ${message}`,
+			`${label} - [${timestamp}] ${level} ${context} ${message}`,
 			stack ? '\n' + stack : ''
 		)
 

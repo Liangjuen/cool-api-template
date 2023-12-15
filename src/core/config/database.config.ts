@@ -19,9 +19,9 @@ class DatabaseConfiguration {
 	async init() {
 		try {
 			await this.source.initialize()
-			Logger.info(`✔️  数据库初始化完成!`)
+			Logger.info(`数据库初始化完成!`, { context: 'TypeORM' })
 		} catch (error) {
-			Logger.error(`❌  数据库初始化失败: ${error}`)
+			Logger.error(`数据库初始化失败: ${error}`, { context: 'TypeORM' })
 		}
 	}
 }

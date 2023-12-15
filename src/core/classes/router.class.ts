@@ -1,4 +1,5 @@
-import { Router } from 'express'
+import { Router, RequestHandler } from 'express'
+import { IAppRoute, IRoute, IRouteModule } from '@interfaces'
 
 /**
  * Router 基类
@@ -8,7 +9,6 @@ export abstract class BaseRouter {
 	 * @description 包装 Express.Router
 	 */
 	readonly router: Router = null
-	lifeCycle: any[]
 	constructor() {
 		this.router = Router()
 	}
@@ -16,33 +16,44 @@ export abstract class BaseRouter {
 	mapRoute(): void {}
 }
 
-interface IAppRoute {
-	segment: string
-	provider: any
-}
-interface IRoute {}
+interface AppLifeCycle extends RequestHandler {}
 
 /**
  *@description 主路由
  */
 export abstract class AppModule extends BaseRouter {
-	routes: IAppRoute[]
+	abstract routes: IAppRoute[]
+	abstract lifeCycle: AppLifeCycle[]
 	constructor() {
 		super()
 	}
-	mapRoute(): void {
+
+	mapRoute(): Router {
+		if (!this.routes || !this.routes.length) return this.router
 		this.routes.forEach(route => {
-			this.router.use(route.segment)
+			const instance = new route.provider()
+			this.router.use(route.segment, instance.router)
 		})
+		return this.router
 	}
 }
 
 /**
  * @description 模块路由
  */
-export abstract class RouteModule extends BaseRouter {
+export abstract class RouteModule extends BaseRouter implements IRouteModule {
+	service: string
+	name: string
 	routes: IRoute[]
+	public middlewares: RequestHandler[]
 	constructor() {
 		super()
+	}
+
+	mapRoute(): void {
+		if (!this.routes || !this.routes.length) return
+		this.routes.forEach(route => {
+			this.router[route.method](route.segment, ...route.middlewares)
+		})
 	}
 }

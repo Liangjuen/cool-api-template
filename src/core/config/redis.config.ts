@@ -29,7 +29,7 @@ export class RedisConfiguration {
 			}
 		})
 		this.client.on('error', err => {
-			Logger.error(`❌  Redis 客户端错误: ${err}`)
+			Logger.error(`Redis 客户端错误: ${err}`, { context: 'Redis' })
 
 			process.exit(0)
 		})
@@ -44,10 +44,10 @@ export class RedisConfiguration {
 	async connect(): Promise<RedisClientType> {
 		try {
 			const clientConnect = await this.client.connect()
-			Logger.info('✔️  Redis 客户端连接成功!')
+			Logger.info('Redis 客户端连接成功!', { context: 'Redis' })
 			return clientConnect
 		} catch (error) {
-			Logger.error(`❌  Redis 客户端连接错误: ${error}`)
+			Logger.error(`Redis 客户端连接错误: ${error}`, { context: 'Redis' })
 		}
 	}
 }
