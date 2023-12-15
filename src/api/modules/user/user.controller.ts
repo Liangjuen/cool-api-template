@@ -10,6 +10,6 @@ export class UserController {
 
 	@Resolve()
 	static async get(req: IRequest, res: IResponse) {
-		res.locals.data = {}
+		res.locals.data = { message: 'ok' }
 	}
 }

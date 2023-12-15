@@ -1,3 +1,3 @@
-import { Resolve } from './resolve'
+import { Resolve } from './resolve.decrator'
 
 export { Resolve }
