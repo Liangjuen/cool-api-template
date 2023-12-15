@@ -12,7 +12,9 @@ export default class Logger {
 	static write(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { ip, method, httpVersion, url } = extract(req)
-			LoggerService.http(`[${method}][${ip} http(${httpVersion})]${url}`)
+			LoggerService.http(`[${ip} http(${httpVersion})]${url}`, {
+				context: method
+			})
 			next()
 		} catch (error) {
 			next(new Error('日志错误', error))
