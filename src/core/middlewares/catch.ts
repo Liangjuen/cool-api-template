@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ExceptionFactory } from '@factory'
 import { Request, Response } from 'express'
 
@@ -63,7 +64,12 @@ export default class Catch {
 	 * @param req 从http.incomingMessage派生的快速请求对象
 	 * @param res 表示响应对象
 	 */
-	static exit(err: IHTTPException, req: Request, res: Response): void {
+	static exit(
+		err: IHTTPException,
+		req: Request,
+		res: Response,
+		next: (e: Error, req: Request, res: Response) => void
+	): void {
 		const { statusCode, statusText, errors, message } = err
 		res.status(statusCode)
 		res.json({
