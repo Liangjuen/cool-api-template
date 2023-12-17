@@ -28,7 +28,7 @@ export class Guard {
 		const userId = await Redis.client.get(token)
 
 		// 如果查询到在黑名单则 响应重新登录
-		if (userId && userId !== null) return next(new Unauthorized('已注销'))
+		if (userId && userId !== null) return next(new Unauthorized('已退出登录'))
 
 		let jwtPayload: JwtPayload
 
