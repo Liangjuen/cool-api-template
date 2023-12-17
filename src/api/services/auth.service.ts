@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken'
 import { ACCESS_TOKEN } from '@config/env.config'
-import { User } from '@api/modules/user/user.entity'
+import { User } from '@api/modules/base/user/user.entity'
 import { Redis } from '@config'
 
 export type JwtPayload = Pick<User, 'username' | 'id' | 'email' | 'roles'>
