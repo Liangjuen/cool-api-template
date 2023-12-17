@@ -1,0 +1,81 @@
+import { Repository } from 'typeorm'
+import { DateSource } from '@config'
+import { LoginLog } from './login-log.entity'
+import { LoginState } from './login-log.enum'
+import { ILoginLogQueryString } from './login-log.interface'
+import { toSkipAndTake } from '@shared/utils/query'
+
+export class LoginLogRepository extends Repository<LoginLog> {
+	constructor() {
+		super(LoginLog, DateSource.createEntityManager())
+	}
+
+	/**
+	 * @description 创建新 log
+	 * @param opts
+	 */
+	async new(opts: {
+		loginState: LoginState
+		username: string
+		userId: number
+		ip: string
+		message: string
+		isMobile?: boolean
+		browser?: string
+		os?: string
+		idaddr?: string
+	}) {
+		const log = this.create()
+		for (let key in opts) {
+			//
+			log[key] = opts[key]
+		}
+		await this.save(log)
+	}
+
+	/**
+	 * @description 获取日志列表
+	 * @param param
+	 * @returns
+	 */
+	async list({
+		page = 1,
+		size = 10,
+		ip,
+		username,
+		startDate,
+		endDate,
+		state
+	}: ILoginLogQueryString) {
+		const { skip, take } = toSkipAndTake(page, size)
+		const query = this.createQueryBuilder('loginLog')
+
+		if (ip) {
+			query.andWhere('ip = :ip', { ip })
+		}
+
+		if (username) {
+			query.andWhere('username = :username', { username })
+		}
+
+		if (state) {
+			query.andWhere('loginState = :state', { state })
+		}
+
+		if (startDate && endDate) {
+			query.andWhere('createdAt BETWEEN :startDate AND :endDate', {
+				startDate,
+				endDate
+			})
+		}
+
+		const [result, total] = await query.skip(skip).take(take).getManyAndCount()
+
+		return {
+			result,
+			total,
+			cPage: skip + 1,
+			size: take
+		}
+	}
+}

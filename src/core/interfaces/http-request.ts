@@ -6,8 +6,8 @@ import { Request } from 'express'
  * @param query 请求的 query
  * @param params 请求的 params
  */
-export interface IRequest extends Request {
-	user?: any
+export interface IRequest<T = any> extends Request {
+	user?: T
 	query: Record<string, string>
 	params: Record<string, string>
 }

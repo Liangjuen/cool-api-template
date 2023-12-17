@@ -4,6 +4,7 @@ import { IRoute } from '@interfaces'
 import { UserController } from './user.controller'
 import { Validator } from '@api/middlewares/validator'
 import { get, list, create, update, remove } from './user.validation'
+import { BasePermission } from '@shared/enums/permission.enum'
 import { Guard } from '@api/middlewares/guard'
 
 export class UserRouter extends RouteModule {
@@ -11,13 +12,17 @@ export class UserRouter extends RouteModule {
 		return [
 			{
 				segment: '/:id',
-				middlewares: [Guard.checkJwt, Validator.check(get), UserController.get],
+				middlewares: [
+					Guard.checkPermission(BasePermission.UserGet),
+					Validator.check(get),
+					UserController.get
+				],
 				method: METHOD.Get
 			},
 			{
 				segment: '/',
 				middlewares: [
-					Guard.checkJwt,
+					Guard.checkPermission(BasePermission.UserList),
 					Validator.check(list),
 					UserController.list
 				],
@@ -26,16 +31,16 @@ export class UserRouter extends RouteModule {
 			{
 				segment: '/',
 				middlewares: [
-					Guard.checkJwt,
+					Guard.checkPermission(BasePermission.UserCreate),
 					Validator.check(create),
 					UserController.create
 				],
-				method: METHOD.Get
+				method: METHOD.Post
 			},
 			{
 				segment: '/:id',
 				middlewares: [
-					Guard.checkJwt,
+					Guard.checkPermission(BasePermission.UserUpdate),
 					Validator.check(update),
 					UserController.update
 				],
@@ -44,7 +49,7 @@ export class UserRouter extends RouteModule {
 			{
 				segment: '/:ids',
 				middlewares: [
-					Guard.checkJwt,
+					Guard.checkPermission(BasePermission.UserRemove),
 					Validator.check(remove),
 					UserController.remove
 				],

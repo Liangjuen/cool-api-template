@@ -4,6 +4,8 @@ import { Auth, JwtPayload } from '@api/services/auth.service'
 import { Redis } from '@config'
 import { AUTH } from '@constants'
 import { Unauthorized, Forbidden } from '@exceptions'
+import { RoleCache } from '../services/role.cache.service'
+import { ROLE } from '@shared/enums'
 
 export class Guard {
 	/**
@@ -50,8 +52,28 @@ export class Guard {
 	/**
 	 * @description 权限校验
 	 */
-	static checkPermission = () => {
-		return async (req: IRequest, res: IResponse, next: NextFunction) => {
+	static checkPermission = (permCode: string) => {
+		return async (
+			req: IRequest<JwtPayload>,
+			res: IResponse,
+			next: NextFunction
+		) => {
+			if (!req?.user?.roles) return next(new Forbidden('无权访问该接口'))
+			// 如果为超管放行
+			if (req?.user?.roles.includes(ROLE.Admin)) return next()
+
+			const rolePerm = RoleCache.get()
+			const perms = []
+
+			req.user.roles.forEach(role => {
+				perms.push(rolePerm[role].split(','))
+			})
+
+			// 没有获取到权限返回无权限
+			if (!perms.includes(permCode))
+				return next(new Forbidden('无权访问该接口'))
+
+			// 有权限放行
 			next()
 		}
 	}

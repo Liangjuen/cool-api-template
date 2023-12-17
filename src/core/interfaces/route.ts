@@ -10,6 +10,7 @@ interface Provider extends Function {
 export interface IAppRoute {
 	segment: string
 	provider: Provider
+	auth?: boolean
 	version?: string | number
 }
 
@@ -17,4 +18,5 @@ export interface IRoute {
 	segment: string
 	middlewares: RequestHandler[]
 	method: RequestMethod
+	auth?: boolean
 }

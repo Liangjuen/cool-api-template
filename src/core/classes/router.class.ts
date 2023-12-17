@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Router, RequestHandler } from 'express'
 import { IAppRoute, IRoute } from '@interfaces'
 
 /**
@@ -22,11 +22,15 @@ export abstract class AppModule extends BaseRouter {
 	 * @description 路由集合
 	 */
 	abstract routes(): IAppRoute[]
+	auth: RequestHandler
+	async plug(): Promise<void> {}
 	constructor() {
 		super()
 		this.routes().forEach(route => {
 			const instance = new route.provider()
-			this.router.use(route.segment, instance.router)
+			const middl = []
+			if (this.auth && route.auth) middl.push(this.auth)
+			this.router.use(route.segment, ...middl, instance.router)
 		})
 	}
 }
@@ -39,10 +43,13 @@ export abstract class RouteModule extends BaseRouter {
 	 * @description 路由集合
 	 */
 	abstract routes(): IRoute[]
+	auth: RequestHandler
 	constructor() {
 		super()
 		this.routes().forEach(route => {
-			this.router[route.method](route.segment, ...route.middlewares)
+			const middl = []
+			if (route.auth && this.auth) middl.push(this.auth)
+			this.router[route.method](route.segment, ...middl, ...route.middlewares)
 		})
 	}
 }

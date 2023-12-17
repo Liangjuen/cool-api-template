@@ -135,6 +135,10 @@ export class Cache {
 	async getHash(key: string): Promise<object> {
 		return await this.engine.hGetAll(key)
 	}
+
+	async flushAll() {
+		return this.engine.flushAll()
+	}
 }
 
 const CacheService = new Cache({

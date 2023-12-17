@@ -5,19 +5,24 @@ import { DictController } from './dict.controller'
 import { Validator } from '@api/middlewares/validator'
 import { get, list, create, update, remove } from './dict.validation'
 import { Guard } from '@api/middlewares/guard'
+import { BasePermission } from '@shared/enums/permission.enum'
 
 export class DictRouter extends RouteModule {
 	routes(): IRoute[] {
 		return [
 			{
 				segment: '/:id',
-				middlewares: [Guard.checkJwt, Validator.check(get), DictController.get],
+				middlewares: [
+					Guard.checkPermission(BasePermission.UserGet),
+					Validator.check(get),
+					DictController.get
+				],
 				method: METHOD.Get
 			},
 			{
 				segment: '/',
 				middlewares: [
-					Guard.checkJwt,
+					Guard.checkPermission(BasePermission.UserList),
 					Validator.check(list),
 					DictController.list
 				],
@@ -26,7 +31,7 @@ export class DictRouter extends RouteModule {
 			{
 				segment: '/',
 				middlewares: [
-					Guard.checkJwt,
+					Guard.checkPermission(BasePermission.UserCreate),
 					Validator.check(create),
 					DictController.create
 				],
@@ -35,7 +40,7 @@ export class DictRouter extends RouteModule {
 			{
 				segment: '/:id',
 				middlewares: [
-					Guard.checkJwt,
+					Guard.checkPermission(BasePermission.UserUpdate),
 					Validator.check(update),
 					DictController.update
 				],
@@ -44,7 +49,7 @@ export class DictRouter extends RouteModule {
 			{
 				segment: '/:ids',
 				middlewares: [
-					Guard.checkJwt,
+					Guard.checkPermission(BasePermission.UserRemove),
 					Validator.check(remove),
 					DictController.remove
 				],

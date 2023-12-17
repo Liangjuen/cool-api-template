@@ -99,6 +99,7 @@ class ExpressConfiguration {
 		this.options = options
 		const module = new appModule() as T
 		this.module = module
+		if (this.module.plug) await this.module.plug()
 		if (this.options.cors) this.instance.use(Cors())
 		return this.instance
 	}
