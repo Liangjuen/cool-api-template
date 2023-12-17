@@ -1,6 +1,6 @@
 import { Resolve } from '@decorators'
 import { IRequest, IResponse } from '@interfaces'
-import { Auth as AuthService } from '@api/services/auth.service'
+import { Auth as AuthService, JwtPayload } from '@api/services/auth.service'
 import { UserRepository } from '../base/user/user.repository'
 import { BadRequest, NotFound } from '@exceptions'
 import { AUTH } from '@constants/auth'
@@ -13,7 +13,7 @@ export class AuthController {
 	 * @param res
 	 */
 	@Resolve()
-	static async register(req: IRequest, res: IResponse) {
+	static async register(req: IRequest<JwtPayload>, res: IResponse) {
 		const repository = new UserRepository()
 		const { username, password, email } = req.body
 
@@ -75,7 +75,7 @@ export class AuthController {
 	 * @param res
 	 */
 	@Resolve()
-	static async logout(req: IRequest) {
+	static async logout(req: IRequest<JwtPayload>) {
 		await AuthService.tokenBlacklisting(req.headers[AUTH], req.user)
 	}
 }

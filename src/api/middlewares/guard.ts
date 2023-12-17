@@ -28,8 +28,7 @@ export class Guard {
 		const userId = await Redis.client.get(token)
 
 		// 如果查询到在黑名单则 响应重新登录
-		if (userId && userId !== null)
-			return next(new Unauthorized('令牌失效，请重新登录'))
+		if (userId && userId !== null) return next(new Unauthorized('已注销'))
 
 		let jwtPayload: JwtPayload
 
@@ -37,6 +36,7 @@ export class Guard {
 		try {
 			jwtPayload = Auth.verify(token)
 			req.user = jwtPayload
+			console.log(jwtPayload)
 		} catch (error) {
 			//如果令牌无效，则响应401(未授权)
 			return next(new Unauthorized(error.message))
@@ -44,8 +44,8 @@ export class Guard {
 
 		//设置令牌有效期
 		//每个请求都发送一个新的令牌
-		const newToken = Auth.getNewToken(jwtPayload)
-		res.setHeader('token', newToken)
+		// const newToken = Auth.getNewToken(jwtPayload)
+		// res.setHeader('token', newToken)
 		next()
 	}
 

@@ -2,8 +2,12 @@ import { RouteModule } from '@classes'
 import { IRoute } from '@core/interfaces'
 import { AuthController } from './auth.controller'
 import { RequestMethod } from '@enums'
+import { Guard } from '@api/middlewares'
 
 export class AuthRouter extends RouteModule {
+	importAuth() {
+		return [Guard.checkJwt]
+	}
 	routes(): IRoute[] {
 		return [
 			{
@@ -19,6 +23,7 @@ export class AuthRouter extends RouteModule {
 			{
 				segment: '/logout',
 				method: RequestMethod.Post,
+				auth: true,
 				middlewares: [AuthController.logout]
 			}
 		]

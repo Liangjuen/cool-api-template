@@ -69,7 +69,7 @@ export class Auth {
 	 * @param token
 	 * @param user
 	 */
-	static tokenBlacklisting = async (token: string, user: User) => {
+	static tokenBlacklisting = async (token: string, user: JwtPayload) => {
 		// 将 token 存入 Redis 并设置过期
 		await Redis.client.set(token, user.id)
 		await Redis.client.expire(token, ACCESS_TOKEN.DURATION)

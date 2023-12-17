@@ -10,7 +10,10 @@ import { LoginLogRouter } from './modules/loginLog/login-log.router'
 import { AuthRouter } from './modules/auth/auth.router'
 
 export class AppModule extends Module {
-	auth = Guard.checkJwt
+	importAuth() {
+		return [Guard.checkJwt]
+	}
+
 	routes(): IAppRoute[] {
 		return [
 			{ segment: '/v1/auth', provider: AuthRouter },
