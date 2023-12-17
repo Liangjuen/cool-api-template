@@ -2,7 +2,7 @@ import { Request } from 'express'
 import { IResponse } from '@interfaces'
 import { HttpResponseStatusCode as HttpCode } from '@enums'
 import { getStatusCode } from '@utils/http'
-import { CacheService } from '@services/Cache'
+import { CacheService } from '@services'
 
 export default class Resolve {
 	/**
