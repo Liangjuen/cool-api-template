@@ -1,6 +1,7 @@
 import { ENVIRONMENT } from './environment'
 import { HttpResponseStatusCode, APICode, APIMessage } from './http-response'
 import { LOG_LEVEL, LOG_COLOR } from './winston-log'
+import { RequestMethod } from './request-method'
 
 export {
 	ENVIRONMENT,
@@ -8,5 +9,6 @@ export {
 	APICode,
 	APIMessage,
 	LOG_LEVEL,
-	LOG_COLOR
+	LOG_COLOR,
+	RequestMethod
 }
