@@ -1,19 +1,26 @@
 import { CacheService } from '@services'
-import { Role } from '@api/modules/base/role/role.entity'
+import { RoleRepository } from '@api/modules/base/role/role.repository'
+import { Logger } from '@services'
 
 export class RoleCache {
 	static key = 'admin:perms'
 	/**
-	 * @description 设置多个角色信息
+	 * @description 角色列表缓存
 	 * @param roles
 	 */
-	static async set(roles: Role[]) {
-		const rolePerm = {}
-		roles.forEach(r => {
-			rolePerm[r.code] = r.permissions
-		})
-		const value = JSON.stringify(rolePerm)
-		await CacheService.engine.set(RoleCache.key, value)
+	static async set() {
+		try {
+			const repository = new RoleRepository()
+			const roles = await repository.allFali()
+			const rolePerm = {}
+			roles.forEach(r => {
+				rolePerm[r.code] = r.perms
+			})
+			const value = JSON.stringify(rolePerm)
+			await CacheService.engine.set(RoleCache.key, value)
+		} catch (error) {
+			Logger.error(`role缓存错误: ${error}`, { context: 'RoleCache' })
+		}
 	}
 
 	static async get(): Promise<{ [key: string]: string }[]> {
