@@ -134,15 +134,16 @@ class ExpressConfiguration {
 	 * @param port 端口
 	 * @returns
 	 */
-	async listen(port?: number | string) {
+	async listen(resetPort?: number | string) {
 		// use 生命周期
 		this.useLifeCycle()
 
-		this.instance.listen(port ? port : this.options.port, () => {
-			LogService.info(
-				`服务器运行在: http://${this.options.domain}:${this.options.port}`,
-				{ context: 'Application' }
-			)
+		const port = resetPort ? resetPort : this.options.port
+
+		this.instance.listen(port, () => {
+			LogService.info(`服务器运行在: http://${this.options.domain}:${port}`, {
+				context: 'Application'
+			})
 		})
 	}
 }
