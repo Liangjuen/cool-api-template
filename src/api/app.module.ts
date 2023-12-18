@@ -9,6 +9,7 @@ import { DictTypeRouter } from './modules/dict/type/router'
 import { LoginLogRouter } from './modules/loginLog/login-log.router'
 
 import { AuthRouter } from './modules/auth/auth.router'
+import { RoleRouter } from './modules/base/role/role.router'
 
 export class AppModule extends Module {
 	importAuth() {
@@ -19,6 +20,7 @@ export class AppModule extends Module {
 		return [
 			{ segment: '/v1/auth', provider: AuthRouter },
 			{ segment: '/v1/users', auth: true, provider: UserRouter },
+			{ segment: '/v1/roles', auth: true, provider: RoleRouter },
 			{ segment: '/v1/dicts', auth: true, provider: DictRouter },
 			{
 				segment: '/v1/dictTypes',

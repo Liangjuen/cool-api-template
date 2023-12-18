@@ -7,7 +7,7 @@ import { get, list, create, update, remove } from './role.validation'
 import { Guard } from '@api/middlewares/guard'
 import { BasePermission } from '@shared/enums/permission.enum'
 
-export class DictRouter extends RouteModule {
+export class RoleRouter extends RouteModule {
 	routes(): IRoute[] {
 		return [
 			{
