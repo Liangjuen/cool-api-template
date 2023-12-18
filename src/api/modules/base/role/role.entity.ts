@@ -13,13 +13,10 @@ export class Role extends BaseEntity implements IEntity {
 	code: string
 
 	@Column({ type: 'simple-array' })
-	permissions: number[]
-
-	@Column({ type: 'simple-array', default: null })
-	menus: number[]
+	perms: string[]
 
 	@Column({ default: '' })
-	description?: string
+	remark?: string
 
 	@Column({
 		type: 'enum',
