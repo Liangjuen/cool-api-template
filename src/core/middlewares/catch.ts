@@ -50,9 +50,12 @@ export default class Catch {
 			Logger.error(
 				`${ip} HTTP/${httpVersion} ${err.statusCode} ${method} ${url}-${msg} #${
 					user ? user.id : 'unknown'
-				}`
+				}`,
+				{ context: 'Catch' }
 			)
-			Logger.error(`Error Stack: ${err.stack ? '\n  ' + err.stack : ''}`)
+			Logger.error(`Error Stack: ${err.stack ? '\n  ' + err.stack : ''}`, {
+				context: 'Catch'
+			})
 		}
 		next(err, req, res)
 	}

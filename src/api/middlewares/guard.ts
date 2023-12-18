@@ -36,7 +36,6 @@ export class Guard {
 		try {
 			jwtPayload = Auth.verify(token)
 			req.user = jwtPayload
-			console.log(jwtPayload)
 		} catch (error) {
 			//如果令牌无效，则响应401(未授权)
 			return next(new Unauthorized(error.message))
@@ -58,23 +57,32 @@ export class Guard {
 			res: IResponse,
 			next: NextFunction
 		) => {
-			if (!req?.user?.roles) return next(new Forbidden('无权访问该接口'))
-			// 如果为超管放行
-			if (req?.user?.roles.includes(ROLE.Admin)) return next()
+			try {
+				if (!req?.user?.roles) return next(new Forbidden('无权访问该接口'))
+				// 如果为超管放行
+				if (req?.user?.roles.includes(ROLE.Admin)) return next()
 
-			const rolePerm = RoleCache.get()
-			const perms = []
+				const rolePerm = await RoleCache.get()
 
-			req.user.roles.forEach(role => {
-				perms.push(rolePerm[role].split(','))
-			})
+				if (rolePerm == null) throw new Error('未获取到角色权限信息')
 
-			// 没有获取到权限返回无权限
-			if (!perms.includes(permCode))
-				return next(new Forbidden('无权访问该接口'))
+				const perms = []
 
-			// 有权限放行
-			next()
+				req.user.roles.forEach(role => {
+					if (rolePerm[role]) {
+						perms.push(rolePerm[role].split(','))
+					}
+				})
+
+				// 没有获取到权限返回无权限
+				if (!perms.includes(permCode))
+					return next(new Forbidden('无权访问该接口'))
+
+				// 有权限放行
+				next()
+			} catch (error) {
+				next(error)
+			}
 		}
 	}
 }
