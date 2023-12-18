@@ -4,7 +4,12 @@ export enum BasePermission {
 	UserGet = 'base:user:get',
 	UserCreate = 'base:user:create',
 	UserUpdate = 'base:user:update',
-	UserRemove = 'base:user:remove'
+	UserRemove = 'base:user:remove',
+	RoleList = 'base:role:list',
+	RoleGet = 'base:role:get',
+	RoleCreate = 'base:role:create',
+	RoleUpdate = 'base:role:update',
+	RoleRemove = 'base:role:remove'
 }
 
 export enum DictPermission {
