@@ -3,7 +3,7 @@ import { NotFound, BadRequest } from '@exceptions'
 import { Resolve } from '@decorators'
 
 import { MenuRepository } from './menu.repository'
-import { IMenuRequest } from './menu.type'
+import { IMenuRequest, MenuType } from './menu.type'
 
 export class MenuController {
 	/**
@@ -83,11 +83,11 @@ export class MenuController {
 		if (findDict) throw new BadRequest('菜单名已被占用')
 		const menu = repository.create({
 			name,
-			pid,
+			pid: type == MenuType.directory ? null : pid,
 			type,
-			permission,
-			component,
-			icon,
+			permission: type == MenuType.permission ? permission : null,
+			component: type == MenuType.permission ? null : component,
+			icon: type == MenuType.permission ? null : icon,
 			sort,
 			cache,
 			hidden,

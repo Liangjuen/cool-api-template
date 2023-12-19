@@ -20,9 +20,9 @@ const list = {
 
 const create = {
 	body: Joi.object({
-		name: name(),
-		typeId: typeId(),
-		value: value(),
+		name: name().required(),
+		typeId: typeId().required(),
+		value: value().required(),
 		orderNum: orderNum(),
 		remark: remark(),
 		pId: pId()

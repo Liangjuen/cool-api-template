@@ -21,8 +21,8 @@ import {
 
 const body = Joi.object({
 	pid: pId(),
-	name: name(),
-	type: type(),
+	name: name().required(),
+	type: type().required(),
 	permission: permission(),
 	component: component(),
 	icon: icon(),
@@ -34,7 +34,7 @@ const body = Joi.object({
 
 const get = {
 	params: Joi.object({
-		id: id()
+		id: id().required()
 	})
 }
 

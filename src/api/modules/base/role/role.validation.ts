@@ -5,7 +5,7 @@ import { remove } from '@shared/validations'
 
 const get = {
 	params: Joi.object({
-		id: id()
+		id: id().required()
 	})
 }
 
@@ -21,9 +21,9 @@ const list = {
 
 const create = {
 	body: Joi.object({
-		name: name(),
-		code: code(),
-		status: status(),
+		name: name().required(),
+		code: code().required(),
+		status: status().required(),
 		remark: remark(),
 		perms: perms()
 	})
