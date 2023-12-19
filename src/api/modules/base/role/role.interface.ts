@@ -1,32 +1,18 @@
-import { IQueryString } from '@shared/interfaces'
-import { IRequest } from '@core/interfaces'
+import { Request } from 'express'
+import { Role } from './role.entity'
+import { IRequestQuery, IRequestParams, IBaseEntity } from '@shared/interfaces'
 import { Status } from '@shared/enums'
 
-export interface IRoleQueryString extends IQueryString {
+export interface IRoleQuery extends IRequestQuery {
 	name?: string
 	code?: string
-	status?: string
+	status?: Status
 }
 
-export interface IRoleRrequest extends IRequest {
-	query: {
-		name?: string
-		code?: string
-		status?: string
-		page?: string
-		size?: string
-		startDate?: string
-		endDate?: string
-	}
-	params: {
-		id?: string
-		ids?: string
-	}
-	body: {
-		perms: string[]
-		name: string
-		code: string
-		remark?: string
-		status: Status
-	}
-}
+export interface IRoleRrequest
+	extends Request<
+		IRequestParams,
+		any,
+		Omit<Role, keyof IBaseEntity>,
+		IRoleQuery
+	> {}

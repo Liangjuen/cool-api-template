@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm'
 import { DateSource } from '@config'
 import { Role } from './role.entity'
-import { IRoleQueryString } from './role.interface'
+import { IRoleQuery } from './role.interface'
 import { toSkipAndTake } from '@shared/utils/query'
 import { Status } from '@shared/enums'
 
@@ -20,7 +20,7 @@ export class RoleRepository extends Repository<Role> {
 		endDate,
 		code,
 		status
-	}: IRoleQueryString): Promise<{
+	}: IRoleQuery): Promise<{
 		result: Role[]
 		total: number
 		cPage: number

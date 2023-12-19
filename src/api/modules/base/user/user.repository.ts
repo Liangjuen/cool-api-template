@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm'
 import { DateSource } from '@config'
 import { User } from './user.entity'
-import { IUserQueryString } from './user.interface'
+import { IUserQuery } from './user.interface'
 
 export class UserRepository extends Repository<User> {
 	constructor() {
@@ -9,7 +9,7 @@ export class UserRepository extends Repository<User> {
 	}
 	/**
 	 * @description 获取用户列表
-	 * @param param IUserQueryString
+	 * @param param IUserQuery
 	 * @returns
 	 */
 	async list({
@@ -21,7 +21,7 @@ export class UserRepository extends Repository<User> {
 		role,
 		status,
 		gender
-	}: IUserQueryString): Promise<{
+	}: IUserQuery): Promise<{
 		result: User[]
 		total: number
 		cPage: number

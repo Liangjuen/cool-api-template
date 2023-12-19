@@ -3,7 +3,7 @@ import * as UserAgent from 'express-useragent'
 import { Request } from 'express'
 import { LoginLogRepository } from './login.repository'
 import { IRequest, IResponse } from '@interfaces'
-import { IParamsString } from '@shared/interfaces'
+import { IRequestParams } from '@shared/interfaces'
 import { Resolve } from '@decorators'
 import { User } from '@api/modules/base/user/user.entity'
 import { LoginState } from './login-log.enum'
@@ -70,7 +70,7 @@ export class LoginLogController {
 	 * @param res
 	 */
 	@Resolve()
-	static async remove(req: Request<IParamsString>) {
+	static async remove(req: Request<IRequestParams>) {
 		const ids = (req.params.ids as string).split(',').map(s => parseInt(s, 10))
 		const loginLogepository = new LoginLogRepository()
 		await loginLogepository.delete(ids)

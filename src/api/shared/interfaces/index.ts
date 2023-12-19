@@ -1,4 +1,4 @@
-import { IParamsString } from './params.interface'
-import { IQueryString } from './query.interface'
+import { IEntity as IBaseEntity, IResponse, IRequest } from '@interfaces'
+import { IRequestQuery, IRequestParams } from './request.interface'
 
-export { IParamsString, IQueryString }
+export { IRequestParams, IRequestQuery, IBaseEntity, IResponse, IRequest }

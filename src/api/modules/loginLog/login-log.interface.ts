@@ -1,8 +1,8 @@
 import { IRequest } from '@interfaces'
-import { IQueryString } from '@shared/interfaces'
+import { IRequestQuery } from '@shared/interfaces'
 import { LoginState } from './login-log.enum'
 
-export interface ILoginLogQueryString extends IQueryString {
+export interface ILoginLogQueryString extends IRequestQuery {
 	state?: LoginState
 	username?: string
 	ip?: string

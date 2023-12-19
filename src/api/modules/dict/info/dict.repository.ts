@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm'
 import { DateSource } from '@config'
 import { Dict } from './dict.entity'
-import { IDictQueryString } from './dict.interface'
+import { IDictQuery } from './dict.interface'
 
 export class DictRepository extends Repository<Dict> {
 	constructor() {
@@ -18,7 +18,7 @@ export class DictRepository extends Repository<Dict> {
 		order = 'DESC',
 		keyWord,
 		typeId
-	}: IDictQueryString) {
+	}: IDictQuery) {
 		const query = this.createQueryBuilder('dict').where('typeId = :typeId', {
 			typeId: parseInt(typeId, 10)
 		})

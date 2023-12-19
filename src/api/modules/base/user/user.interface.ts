@@ -1,9 +1,9 @@
+import { Request } from 'express'
 import { User } from './user.entity'
-import { IRequest } from '@interfaces'
-import { IQueryString } from '@shared/interfaces'
+import { IRequestParams, IRequestQuery } from '@shared/interfaces'
 import { Status, Gender } from '@shared/enums'
 
-export interface IUserQueryString extends IQueryString {
+export interface IUserQuery extends IRequestQuery {
 	status?: Status
 	username?: string
 	email?: string
@@ -12,25 +12,19 @@ export interface IUserQueryString extends IQueryString {
 }
 
 /**
- * @description
+ * @description 用户请求参数模型
  */
-export interface IUserRequest extends IRequest {
+export interface IUserRequest
+	extends Request<
+		IRequestParams,
+		any,
+		{
+			username?: string
+			email?: string
+			password?: string
+			oldPassword?: string
+		},
+		IUserQuery
+	> {
 	user?: User | Record<string, unknown>
-	logIn: (user: User, done: (err: any) => void) => void
-	query: {
-		page?: string
-		size?: string
-		startDate?: string
-		endDate?: string
-	}
-	params: {
-		id?: string
-		ids?: string
-	}
-	body: {
-		username?: string
-		email?: string
-		password?: string
-		oldPassword?: string
-	}
 }
