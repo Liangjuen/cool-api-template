@@ -5,7 +5,8 @@ import {
 	EnvMemoryCache,
 	EnvTypeorm,
 	EnvLog,
-	EnvRedis
+	EnvRedis,
+	EnvEmail
 } from './environment-cluster'
 
 export {
@@ -15,5 +16,6 @@ export {
 	EnvMemoryCache,
 	EnvTypeorm,
 	EnvLog,
-	EnvRedis
+	EnvRedis,
+	EnvEmail
 }

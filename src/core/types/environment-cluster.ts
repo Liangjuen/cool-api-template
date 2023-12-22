@@ -26,6 +26,12 @@ type EnvRedis = {
 	USER: string
 	PASS: string
 }
+type EnvEmail = {
+	HOST: string
+	PORT: number
+	USER: string
+	PASS: string
+}
 
 export {
 	EnvAccessToken,
@@ -33,5 +39,6 @@ export {
 	EnvMemoryCache,
 	EnvTypeorm,
 	EnvLog,
-	EnvRedis
+	EnvRedis,
+	EnvEmail
 }

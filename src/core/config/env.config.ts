@@ -8,7 +8,8 @@ import {
 	EnvMemoryCache,
 	EnvTypeorm,
 	EnvLog,
-	EnvRedis
+	EnvRedis,
+	EnvEmail
 } from '@types'
 
 export class Environment {
@@ -70,7 +71,11 @@ export class Environment {
 		'REDIS_USER',
 		'REDIS_PASS',
 		'LOG_LEVEL',
-		'LOG_DIR'
+		'LOG_DIR',
+		'EMAIL_OPERATOR_HOST',
+		'EMAIL_OPERATOR_PORT',
+		'EMAIL_USER',
+		'EMAIL_PASS'
 		// more ...
 	]
 
@@ -411,6 +416,27 @@ export class Environment {
 		 */
 		LOG_DIR: (value: string): string => {
 			return value || 'logs'
+		},
+
+		/**
+		 * @description nodemailer 配置
+		 * @param value
+		 * @returns
+		 */
+		EMAIL_OPERATOR_HOST: (value: string): string => {
+			return value || ''
+		},
+
+		EMAIL_OPERATOR_PORT: (value: string) => {
+			return parseInt(value, 10) || null
+		},
+
+		EMAIL_USER: (value: string): string => {
+			return value || ''
+		},
+
+		EMAIL_PASS: (value: string): string => {
+			return value || ''
 		}
 
 		// more ...
@@ -512,6 +538,12 @@ export class Environment {
 				DB: this.variables.REDIS_DB,
 				USER: this.variables.REDIS_USER,
 				PASS: this.variables.REDIS_PASS
+			},
+			EMAIL: {
+				HOST: this.variables.EMAIL_OPERATOR_HOST,
+				PORT: this.variables.EMAIL_OPERATOR_PORT,
+				USER: this.variables.EMAIL_USER,
+				PASS: this.variables.EMAIL_PASS
 			}
 			// more ...
 		}
@@ -552,6 +584,7 @@ export class Environment {
 			URL: this.cluster.URL as string,
 			API_PREFIX: this.cluster.API_PREFIX as string,
 			REDIS: this.cluster.REDIS as EnvRedis,
+			EMAIL: this.cluster.EMAIL as EnvEmail,
 			isDev: this.isDev,
 			isProd: this.isProd,
 			isTest: this.isTest
@@ -594,6 +627,7 @@ export const {
 	URL,
 	API_PREFIX,
 	REDIS,
+	EMAIL,
 	isDev,
 	isProd,
 	isTest
