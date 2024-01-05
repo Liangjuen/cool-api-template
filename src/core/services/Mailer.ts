@@ -1,5 +1,5 @@
 import Nodemailer, { Transporter } from 'nodemailer'
-import { EmailConfig } from '@config'
+import { EmailConfig } from '@config/mailer.config'
 import { Logger } from '@services'
 
 class Mailer {
