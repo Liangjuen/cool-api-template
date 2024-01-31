@@ -11,8 +11,12 @@ export class Menu extends BaseEntity implements IEntity {
 	@Column({ unique: true, default: null })
 	name: string
 
-	@Column({ comment: '权限标识仅在type为权限时指定', default: null })
-	permission?: string
+	@Column({
+		type: 'simple-array',
+		comment: '权限标识仅在type为权限时指定',
+		default: null
+	})
+	perms?: string[]
 
 	@Column({ default: 0 })
 	pid?: number
@@ -24,7 +28,10 @@ export class Menu extends BaseEntity implements IEntity {
 	})
 	type: MenuType
 
-	@Column({ default: null })
+	@Column({ default: null, nullable: true })
+	path?: string
+
+	@Column({ default: null, nullable: true })
 	component?: string
 
 	@Column({ default: null })

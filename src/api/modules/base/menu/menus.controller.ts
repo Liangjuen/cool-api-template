@@ -66,17 +66,8 @@ export class MenuController {
 	 */
 	@Resolve()
 	static async create(req: IMenuRequest, res: IResponse) {
-		const {
-			name,
-			type,
-			permission,
-			component,
-			icon,
-			sort,
-			cache,
-			hidden,
-			status
-		} = req.body
+		const { name, type, perms, component, icon, sort, cache, hidden, status } =
+			req.body
 		const pid = req.body.pid == null ? null : parseInt(req.body.pid, 10)
 		const repository = new MenuRepository()
 		const findDict = await repository.findOneBy({ name })
@@ -85,7 +76,7 @@ export class MenuController {
 			name,
 			pid: type == MenuType.directory ? null : pid,
 			type,
-			permission: type == MenuType.permission ? permission : null,
+			perms: type == MenuType.permission ? perms : null,
 			component: type == MenuType.permission ? null : component,
 			icon: type == MenuType.permission ? null : icon,
 			sort,
@@ -104,17 +95,8 @@ export class MenuController {
 	 */
 	@Resolve()
 	static async update(req: IMenuRequest, res: IResponse) {
-		const {
-			name,
-			type,
-			permission,
-			component,
-			icon,
-			sort,
-			cache,
-			hidden,
-			status
-		} = req.body
+		const { name, type, perms, component, icon, sort, cache, hidden, status } =
+			req.body
 		const pid = req.body.pid == null ? null : parseInt(req.body.pid, 10)
 		const id = parseInt(req.params.id, 10)
 		const repository = new MenuRepository()
@@ -125,7 +107,7 @@ export class MenuController {
 		repository.merge(menu, {
 			name,
 			type,
-			permission,
+			perms,
 			component,
 			icon,
 			sort,
