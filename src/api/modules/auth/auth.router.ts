@@ -16,6 +16,11 @@ export class AuthRouter extends RouteModule {
 				middlewares: [AuthController.login]
 			},
 			{
+				segment: '/usernameLogin',
+				method: RequestMethod.Post,
+				middlewares: [AuthController.usernameLogin]
+			},
+			{
 				segment: '/register',
 				method: RequestMethod.Post,
 				middlewares: [AuthController.register]
