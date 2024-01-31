@@ -11,9 +11,9 @@ const code = () =>
 const remark = () =>
 	Joi.string().max(500).messages({ 'string.max': '字典描述度规定不超过 500' })
 
-const perms = () =>
+const menuIdList = () =>
 	Joi.array()
-		.items(Joi.string().min(1).max(64))
+		.items(Joi.number().min(1).max(64))
 		.messages({ 'array.base': '权限列表未通过校验' })
 
-export { name, code, remark, perms }
+export { name, code, remark, menuIdList }

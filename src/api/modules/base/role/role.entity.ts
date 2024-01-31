@@ -13,6 +13,9 @@ export class Role extends BaseEntity implements IEntity {
 	code: string
 
 	@Column({ type: 'simple-array' })
+	menuIdList: number[]
+
+	@Column({ type: 'simple-array' })
 	perms: string[]
 
 	@Column({ default: '' })

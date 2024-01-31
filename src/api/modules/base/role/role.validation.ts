@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import { code, name, remark, perms } from './role.schemas'
+import { code, name, remark, menuIdList } from './role.schemas'
 import { id, sort, order, status } from '@shared/schemas'
 import { remove } from '@shared/validations'
 
@@ -25,7 +25,7 @@ const create = {
 		code: code().required(),
 		status: status().required(),
 		remark: remark(),
-		perms: perms()
+		menuIdList: menuIdList()
 	})
 }
 
@@ -38,7 +38,7 @@ const update = {
 		code: code(),
 		status: status(),
 		remark: remark(),
-		perms: perms()
+		menuIdList: menuIdList()
 	})
 }
 

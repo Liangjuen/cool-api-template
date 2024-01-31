@@ -2,6 +2,7 @@ import { IRequest, IResponse } from '@interfaces'
 import { Resolve } from '@decorators'
 import { RoleRepository } from './role.repository'
 import { IRoleRrequest } from './role.interface'
+import { MenuRepository } from '@api/modules/base/menu/menu.repository'
 import { BadRequest } from '@exceptions'
 
 export class RoleController {
@@ -36,7 +37,7 @@ export class RoleController {
 	 */
 	@Resolve()
 	static async create(req: IRoleRrequest, res: IResponse) {
-		const { name, code, remark, perms } = req.body
+		const { name, code, remark, menuIdList } = req.body
 		const repository = new RoleRepository()
 		const findRole = await repository
 			.createQueryBuilder('role')
@@ -49,10 +50,14 @@ export class RoleController {
 			if (findRole.code == code) throw new BadRequest('角色编码已被占用')
 		}
 
+		const menuRepo = new MenuRepository()
+		const { perms } = await menuRepo.getMenus(menuIdList)
+
 		const newRole = repository.create({
 			name,
 			code,
 			remark,
+			menuIdList,
 			perms
 		})
 
@@ -61,7 +66,7 @@ export class RoleController {
 
 	@Resolve()
 	static async update(req: IRoleRrequest, res: IResponse) {
-		const { name, code, perms, remark } = req.body
+		const { name, code, menuIdList, remark } = req.body
 		const id = parseInt(req.params.id, 10)
 		const repository = new RoleRepository()
 
@@ -71,10 +76,14 @@ export class RoleController {
 			if (findRole.name == name) throw new BadRequest('角色名已被占用')
 			if (findRole.code == code) throw new BadRequest('角色编码已被占用')
 		}
+
 		const role = await repository.findOneBy({ id })
+		const menuRepo = new MenuRepository()
+		const { perms } = await menuRepo.getMenus(menuIdList)
 		repository.merge(role, {
 			name,
 			code,
+			menuIdList,
 			perms,
 			remark
 		})
