@@ -14,7 +14,8 @@ export enum BasePermission {
 	MenuGet = 'base:menu:get',
 	MenuCreate = 'base:menu:create',
 	MenuUpdate = 'base:menu:update',
-	MenuRemove = 'base:menu:remove'
+	MenuRemove = 'base:menu:remove',
+	PermsList = 'base:perms:list'
 }
 
 export enum DictPermission {
