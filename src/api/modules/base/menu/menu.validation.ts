@@ -16,7 +16,8 @@ import {
 	component,
 	icon,
 	cache,
-	hidden
+	hidden,
+	path
 } from './menu.schemas'
 
 const body = Joi.object({
@@ -25,6 +26,7 @@ const body = Joi.object({
 	type: type().required(),
 	permission: permission(),
 	component: component(),
+	path: path(),
 	icon: icon(),
 	sort: sort(),
 	cache: cache(),

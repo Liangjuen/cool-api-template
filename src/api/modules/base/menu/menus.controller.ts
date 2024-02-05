@@ -66,8 +66,18 @@ export class MenuController {
 	 */
 	@Resolve()
 	static async create(req: IMenuRequest, res: IResponse) {
-		const { name, type, perms, component, icon, sort, cache, hidden, status } =
-			req.body
+		const {
+			name,
+			type,
+			perms,
+			component,
+			icon,
+			sort,
+			cache,
+			hidden,
+			status,
+			path
+		} = req.body
 		const pid = req.body.pid == null ? null : parseInt(req.body.pid, 10)
 		const repository = new MenuRepository()
 		const findDict = await repository.findOneBy({ name })
@@ -82,7 +92,8 @@ export class MenuController {
 			sort,
 			cache,
 			hidden,
-			status
+			status,
+			path
 		})
 
 		res.locals.data = await repository.save(menu)
@@ -95,8 +106,18 @@ export class MenuController {
 	 */
 	@Resolve()
 	static async update(req: IMenuRequest, res: IResponse) {
-		const { name, type, perms, component, icon, sort, cache, hidden, status } =
-			req.body
+		const {
+			name,
+			type,
+			perms,
+			component,
+			icon,
+			sort,
+			cache,
+			hidden,
+			status,
+			path
+		} = req.body
 		const pid = req.body.pid == null ? null : parseInt(req.body.pid, 10)
 		const id = parseInt(req.params.id, 10)
 		const repository = new MenuRepository()
@@ -114,7 +135,8 @@ export class MenuController {
 			cache,
 			hidden,
 			status,
-			pid
+			pid,
+			path
 		})
 		res.locals.data = await repository.save(menu)
 	}
