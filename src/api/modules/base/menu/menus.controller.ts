@@ -82,9 +82,11 @@ export class MenuController {
 		const repository = new MenuRepository()
 		const findDict = await repository.findOneBy({ name })
 		if (findDict) throw new BadRequest('菜单名已被占用')
+		console.log(req.body)
+
 		const menu = repository.create({
 			name,
-			pid: type == MenuType.directory ? null : pid,
+			pid,
 			type,
 			perms: type == MenuType.permission ? perms : null,
 			component: type == MenuType.permission ? null : component,

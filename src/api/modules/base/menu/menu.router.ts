@@ -38,7 +38,7 @@ export class MenuRouter extends RouteModule {
 				]
 			},
 			{
-				segment: '/',
+				segment: '/:id',
 				method: RequestMethod.Patch,
 				middlewares: [
 					Guard.checkPermission(BasePermission.MenuUpdate),

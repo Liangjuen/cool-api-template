@@ -1,30 +1,23 @@
 import Joi from 'joi'
 import { remove } from '@shared/validations'
-import {
-	id,
-	sort,
-	order,
-	status,
-	startDate,
-	endDate,
-	pId
-} from '@shared/schemas'
+import { id, order, status, startDate, endDate, pId } from '@shared/schemas'
 import {
 	name,
-	permission,
+	perms,
 	type,
 	component,
 	icon,
 	cache,
 	hidden,
-	path
+	path,
+	sort
 } from './menu.schemas'
 
 const body = Joi.object({
 	pid: pId(),
 	name: name().required(),
 	type: type().required(),
-	permission: permission(),
+	perms: perms(),
 	component: component(),
 	path: path(),
 	icon: icon(),

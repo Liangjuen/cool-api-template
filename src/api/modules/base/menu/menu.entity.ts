@@ -14,11 +14,12 @@ export class Menu extends BaseEntity implements IEntity {
 	@Column({
 		type: 'simple-array',
 		comment: '权限标识仅在type为权限时指定',
-		default: null
+		default: null,
+		nullable: true
 	})
 	perms?: string[]
 
-	@Column({ default: 0 })
+	@Column({ nullable: true })
 	pid?: number
 
 	@Column({
@@ -34,10 +35,10 @@ export class Menu extends BaseEntity implements IEntity {
 	@Column({ default: null, nullable: true })
 	component?: string
 
-	@Column({ default: null })
+	@Column({ default: null, nullable: true })
 	icon?: string
 
-	@Column({ default: 1 })
+	@Column()
 	sort: number
 
 	@Column({
