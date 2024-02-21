@@ -81,8 +81,8 @@ export class MenuController {
 		const pid = req.body.pid == null ? null : parseInt(req.body.pid, 10)
 		const repository = new MenuRepository()
 		const findDict = await repository.findOneBy({ name })
-		if (findDict) throw new BadRequest('菜单名已被占用')
-		console.log(req.body)
+		if (findDict && type !== MenuType.permission)
+			throw new BadRequest('节点名已被占用')
 
 		const menu = repository.create({
 			name,
@@ -122,10 +122,12 @@ export class MenuController {
 		} = req.body
 		const pid = req.body.pid == null ? null : parseInt(req.body.pid, 10)
 		const id = parseInt(req.params.id, 10)
+
 		const repository = new MenuRepository()
 		const findMenu = await repository.findOne({ where: { name } })
 
-		if (findMenu && findMenu.id !== id) throw new BadRequest('菜单名已被占用')
+		if (findMenu && findMenu.id !== id && type !== MenuType.permission)
+			throw new BadRequest('节点名已被占用')
 		const menu = await repository.findOneBy({ id })
 		repository.merge(menu, {
 			name,

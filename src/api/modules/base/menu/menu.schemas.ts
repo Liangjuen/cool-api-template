@@ -18,8 +18,8 @@ const component = () =>
 const icon = () =>
 	Joi.string()
 		.allow(null, '')
-		.max(20)
-		.messages({ 'string.max': '图标名称长度不超过 20 位' })
+		.max(50)
+		.messages({ 'string.max': '图标名称长度不超过 50 位' })
 
 const cache = () => Joi.number().valid(...list(MenuCache))
 
@@ -28,8 +28,8 @@ const hidden = () => Joi.number().valid(...list(MenuHidden))
 const path = () =>
 	Joi.string()
 		.allow(null, '')
-		.max(30)
-		.messages({ 'string.max': '节点路由长度不超过 30 位' })
+		.max(100)
+		.messages({ 'string.max': '节点路由长度不超过 100 位' })
 
 const sort = () => Joi.number()
 

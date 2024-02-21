@@ -35,7 +35,7 @@ const get = {
 
 const list = {
 	query: Joi.object({
-		name: name(),
+		name: name().allow(null, ''),
 		status: status(),
 		stratDate: startDate(),
 		endDate: endDate(),

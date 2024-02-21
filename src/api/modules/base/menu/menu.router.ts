@@ -39,7 +39,7 @@ export class MenuRouter extends RouteModule {
 			},
 			{
 				segment: '/:id',
-				method: RequestMethod.Patch,
+				method: RequestMethod.Put,
 				middlewares: [
 					Guard.checkPermission(BasePermission.MenuUpdate),
 					Validator.check(update),
@@ -47,7 +47,7 @@ export class MenuRouter extends RouteModule {
 				]
 			},
 			{
-				segment: '/',
+				segment: '/:ids',
 				method: RequestMethod.Delete,
 				middlewares: [
 					Guard.checkPermission(BasePermission.MenuRemove),

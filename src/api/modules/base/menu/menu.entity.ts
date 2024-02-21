@@ -8,7 +8,7 @@ import { MenuCache, MenuHidden, MenuType } from './menu.type'
 
 @Entity()
 export class Menu extends BaseEntity implements IEntity {
-	@Column({ unique: true, default: null })
+	@Column({ default: '' })
 	name: string
 
 	@Column({
