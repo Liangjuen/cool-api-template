@@ -13,7 +13,4 @@ const typeId = () => Joi.number().integer()
 const remark = () =>
 	Joi.string().max(500).messages({ 'string.max': '字典描述度规定不超过 500' })
 
-const keyWord = () =>
-	Joi.string().max(20).messages({ 'string.max': '搜索关键词不得超过 20 字' })
-
-export { name, orderNum, value, typeId, remark, keyWord }
+export { name, orderNum, value, typeId, remark }

@@ -1,6 +1,6 @@
 import Joi from 'joi'
 import { typeId, name, value, remark, orderNum } from './dict.schemas'
-import { id, pId, sort, order, keyWord } from '@shared/schemas'
+import { id, pId, sort, order, keyword } from '@shared/schemas'
 import { remove } from '@shared/validations'
 
 const get = {
@@ -12,7 +12,7 @@ const get = {
 const list = {
 	query: Joi.object({
 		typeId: typeId().required(),
-		keyWord: keyWord(),
+		keyword: keyword(),
 		sort: sort(),
 		order: order()
 	})
