@@ -17,7 +17,7 @@ const role = (): AnySchema => {
 	return Joi.any()
 }
 
-const pagination = (key: string): AnySchema => {
+const pagination = (key: 'page' | 'size'): AnySchema => {
 	const pagination = {
 		page: Joi.number().integer().min(1).messages({
 			'number.min': '[page] 必须大于等于1',
@@ -59,8 +59,11 @@ const status = (): AnySchema => {
 	return Joi.number().valid(...list(Status))
 }
 
-const keyWord = () =>
-	Joi.string().max(20).messages({ 'string.max': '搜索关键词不得超过 20 字' })
+const keyword = () =>
+	Joi.string()
+		.allow(null, '')
+		.max(20)
+		.messages({ 'string.max': '搜索关键词不得超过 20 字' })
 
 const order = () => Joi.string().valid('ASC', 'DESC')
 
@@ -79,7 +82,7 @@ export {
 	description,
 	ids,
 	status,
-	keyWord,
+	keyword,
 	order,
 	sort,
 	pId
