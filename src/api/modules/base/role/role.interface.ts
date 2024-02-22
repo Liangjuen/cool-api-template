@@ -4,8 +4,7 @@ import { IRequestQuery, IRequestParams, IBaseEntity } from '@shared/interfaces'
 import { Status } from '@shared/enums'
 
 export interface IRoleQuery extends IRequestQuery {
-	name?: string
-	code?: string
+	keyword?: string
 	status?: Status
 }
 

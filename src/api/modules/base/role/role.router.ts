@@ -44,7 +44,7 @@ export class RoleRouter extends RouteModule {
 					Validator.check(update),
 					RoleController.update
 				],
-				method: METHOD.Patch
+				method: METHOD.Put
 			},
 			{
 				segment: '/:ids',

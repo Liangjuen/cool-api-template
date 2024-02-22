@@ -18,8 +18,8 @@ export class Role extends BaseEntity implements IEntity {
 	@Column({ type: 'simple-array' })
 	perms: string[]
 
-	@Column({ default: '' })
-	remark?: string
+	@Column({ default: '', nullable: true })
+	remark: string
 
 	@Column({
 		type: 'enum',

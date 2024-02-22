@@ -1,6 +1,6 @@
 import Joi from 'joi'
 import { code, name, remark, menuIdList } from './role.schemas'
-import { id, sort, order, status } from '@shared/schemas'
+import { id, sort, order, status, keyword, pagination } from '@shared/schemas'
 import { remove } from '@shared/validations'
 
 const get = {
@@ -11,9 +11,9 @@ const get = {
 
 const list = {
 	query: Joi.object({
-		code: code(),
-		name: name(),
-		status: status(),
+		keyword: keyword(),
+		page: pagination('page'),
+		size: pagination('size'),
 		sort: sort(),
 		order: order()
 	})
@@ -23,7 +23,6 @@ const create = {
 	body: Joi.object({
 		name: name().required(),
 		code: code().required(),
-		status: status().required(),
 		remark: remark(),
 		menuIdList: menuIdList()
 	})
@@ -34,8 +33,8 @@ const update = {
 		id: id()
 	}),
 	body: Joi.object({
-		name: name(),
-		code: code(),
+		name: name().required(),
+		code: code().required(),
 		status: status(),
 		remark: remark(),
 		menuIdList: menuIdList()
