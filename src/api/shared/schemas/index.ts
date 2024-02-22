@@ -8,7 +8,7 @@ import {
 	description,
 	ids,
 	status,
-	keyWord,
+	keyword,
 	order,
 	sort,
 	pId
@@ -24,7 +24,7 @@ export {
 	description,
 	ids,
 	status,
-	keyWord,
+	keyword,
 	order,
 	sort,
 	pId
