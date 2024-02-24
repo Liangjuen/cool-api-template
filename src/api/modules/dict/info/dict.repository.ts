@@ -16,14 +16,14 @@ export class DictRepository extends Repository<Dict> {
 	async list({
 		sort = 'orderNum',
 		order = 'DESC',
-		keyWord,
+		keyword,
 		typeId
 	}: IDictQuery) {
 		const query = this.createQueryBuilder('dict').where('typeId = :typeId', {
 			typeId: parseInt(typeId, 10)
 		})
-		if (keyWord)
-			query.andWhere('name LIKE :keyWord', { keyWord: '%' + keyWord + '%' })
+		if (keyword)
+			query.andWhere('name LIKE :keyword', { keyword: '%' + keyword + '%' })
 		query.orderBy(sort, order)
 		return await query.getMany()
 	}

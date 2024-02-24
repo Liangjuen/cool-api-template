@@ -56,22 +56,11 @@ export class DictTypeController {
 		const { name, key } = req.body
 		const id = parseInt(req.params.id, 10)
 		const repository = new DictTypeRepository()
+		const findDictType = await repository.findOne({
+			where: [{ name }, { key }]
+		})
 
-		const query = repository
-			.createQueryBuilder('type')
-			.where('type.id !=:id', { id })
-
-		if (name && key) {
-			query
-				.andWhere('type.name = :name', { name })
-				.orWhere('type.key = :key', { key })
-		}
-		if (key) query.andWhere('type.key = :key', { key })
-		if (name) query.andWhere('type.name = :name', { name })
-
-		const findDictType = await query.getOne()
-
-		if (findDictType) {
+		if (findDictType && findDictType.id !== id) {
 			if (findDictType.name == name) throw new BadRequest('字典类型名已被使用')
 			if (findDictType.key == key) throw new BadRequest('字典类型key已被使用')
 		}

@@ -2,7 +2,7 @@ import { Request } from 'express'
 import { IRequestQuery, IRequestParams } from '@shared/interfaces'
 
 export interface IDictQuery extends IRequestQuery {
-	keyWord?: string
+	keyword?: string
 	typeId?: string
 }
 

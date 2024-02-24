@@ -8,14 +8,14 @@ export class Dict extends BaseEntity implements IEntity {
 	@Column({ unique: true })
 	name: string
 
-	@Column({ nullable: true, default: 0 })
-	orderNum?: number
+	@Column({ default: 0 })
+	orderNum: number
 
 	@Column({ nullable: true, default: null })
-	pId?: number
+	pId: number
 
-	@Column()
-	remark?: string
+	@Column({ nullable: true, default: null })
+	remark: string
 
 	@Column()
 	typeId: number

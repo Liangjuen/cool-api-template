@@ -21,7 +21,7 @@ export class DictTypeRouter extends RouteModule {
 			{
 				segment: '/:id',
 				middlewares: [Validator.check(update), DictTypeController.update],
-				method: METHOD.Patch
+				method: METHOD.Put
 			},
 			{
 				segment: '/:ids',
