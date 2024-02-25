@@ -11,10 +11,12 @@ export class RoleCache {
 	static async set() {
 		try {
 			const repository = new RoleRepository()
-			const roles = await repository.allFali()
+			const roles = await repository.find({
+				select: ['perms', 'code', 'status']
+			})
 			const rolePerm = {}
 			roles.forEach(r => {
-				rolePerm[r.code] = r.perms
+				if (r.status == 1) rolePerm[r.code] = r.perms
 			})
 			const value = JSON.stringify(rolePerm)
 			await CacheService.engine.set(RoleCache.key, value)
