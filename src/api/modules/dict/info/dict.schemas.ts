@@ -6,11 +6,17 @@ const name = () =>
 const orderNum = () => Joi.number().integer()
 
 const value = () =>
-	Joi.string().max(256).messages({ 'string.max': '字典值长度规定不超过 256' })
+	Joi.string()
+		.allow('', null)
+		.max(500)
+		.messages({ 'string.max': '字典值长度规定不超过 500' })
 
 const typeId = () => Joi.number().integer()
 
 const remark = () =>
-	Joi.string().max(500).messages({ 'string.max': '字典描述度规定不超过 500' })
+	Joi.string()
+		.allow('', null)
+		.max(200)
+		.messages({ 'string.max': '字典描述度规定不超过 200' })
 
 export { name, orderNum, value, typeId, remark }

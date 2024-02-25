@@ -1,7 +1,6 @@
 import { Entity, Column } from 'typeorm'
 import { IEntity } from '@interfaces'
 import { BaseEntity } from '@classes'
-import { Status } from '@shared/enums'
 
 @Entity()
 export class Dict extends BaseEntity implements IEntity {
@@ -22,11 +21,4 @@ export class Dict extends BaseEntity implements IEntity {
 
 	@Column()
 	value: string
-
-	@Column({
-		type: 'enum',
-		enum: Status,
-		default: Status.normal
-	})
-	status: Status
 }

@@ -44,7 +44,7 @@ export class DictRouter extends RouteModule {
 					Validator.check(update),
 					DictController.update
 				],
-				method: METHOD.Patch
+				method: METHOD.Put
 			},
 			{
 				segment: '/:ids',
