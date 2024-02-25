@@ -17,7 +17,7 @@ export class Cache {
 	 */
 	duration: number
 
-	private readonly baseKey: string = 'cache'
+	private readonly baseKey: string = '[listRequestCache]'
 
 	/**
 	 * @description 缓存引擎
@@ -44,7 +44,7 @@ export class Cache {
 				.sort()
 				.map(key => req.query[key])
 				.join('')
-		return `${this.baseKey}${req.baseUrl}${req.path}?q=${queryParams}`
+		return `${this.baseKey}:${req.baseUrl}${req.path}?q=${queryParams}`
 	}
 
 	metaKey = (key: string) => key + 'meta'
