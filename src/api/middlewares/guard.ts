@@ -66,17 +66,18 @@ export class Guard {
 
 				if (rolePerm == null) throw new Error('未获取到角色权限信息')
 
-				const perms = []
+				// 有权限标识
+				let isAuth = false
 
 				req.user.roles.forEach(role => {
 					if (rolePerm[role]) {
-						perms.push(rolePerm[role].split(','))
+						if (isAuth) return
+						isAuth = rolePerm[role].includes(permCode)
 					}
 				})
 
 				// 没有获取到权限返回无权限
-				if (!perms.includes(permCode))
-					return next(new Forbidden('无权访问该接口'))
+				if (!isAuth) return next(new Forbidden('无权访问该接口'))
 
 				// 有权限放行
 				next()
