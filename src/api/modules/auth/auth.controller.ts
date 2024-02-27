@@ -123,7 +123,7 @@ export class AuthController {
 
 		const result = await user.passwordMatches(password)
 		if (!result) {
-			message = '用户忙或密码错误'
+			message = '用户名或密码错误'
 			LoginLogController.create(req, user, 0, message)
 			throw new BadRequest(message)
 		}
