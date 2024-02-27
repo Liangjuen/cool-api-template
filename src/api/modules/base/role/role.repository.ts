@@ -23,7 +23,7 @@ export class RoleRepository extends Repository<Role> {
 		cPage: number
 		size: number
 	}> {
-		const { take, skip } = toSkipAndTake(page, size)
+		const { take, skip, cPage } = toSkipAndTake(page, size)
 		const query = this.createQueryBuilder('role')
 
 		if (keyword) {
@@ -44,7 +44,7 @@ export class RoleRepository extends Repository<Role> {
 		return {
 			result,
 			total,
-			cPage: skip + 1,
+			cPage,
 			size: take
 		}
 	}
