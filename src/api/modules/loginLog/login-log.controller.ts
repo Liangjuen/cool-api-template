@@ -56,10 +56,10 @@ export class LoginLogController {
 		const { result, total, cPage, size } = await loginLogepository.list(
 			req.query
 		)
-		res.locals.data = result
-		res.locals.meta = {
+		res.locals.data = {
+			result,
 			total,
-			current: cPage,
+			cPage,
 			size
 		}
 	}

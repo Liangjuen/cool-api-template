@@ -41,21 +41,23 @@ export class LoginLogRepository extends Repository<LoginLog> {
 	async list({
 		page = 1,
 		size = 10,
-		ip,
-		username,
+		keyword,
 		startDate,
 		endDate,
 		state
 	}: ILoginLogQueryString) {
-		const { skip, take } = toSkipAndTake(page, size)
+		const { skip, take, cPage } = toSkipAndTake(page, size)
+
 		const query = this.createQueryBuilder('loginLog')
 
-		if (ip) {
-			query.andWhere('ip = :ip', { ip })
-		}
-
-		if (username) {
-			query.andWhere('username = :username', { username })
+		if (keyword) {
+			query.andWhere(
+				'loginLog.username LIKE :username OR loginLog.ip LIKE :ip',
+				{
+					username: '%' + keyword + '%',
+					ip: '%' + keyword + '%'
+				}
+			)
 		}
 
 		if (state) {
@@ -74,7 +76,7 @@ export class LoginLogRepository extends Repository<LoginLog> {
 		return {
 			result,
 			total,
-			cPage: skip + 1,
+			cPage,
 			size: take
 		}
 	}

@@ -4,8 +4,7 @@ import { LoginState } from './login-log.enum'
 
 export interface ILoginLogQueryString extends IRequestQuery {
 	state?: LoginState
-	username?: string
-	ip?: string
+	keyword?: string
 }
 
 export interface ILoginLogRequest extends IRequest {

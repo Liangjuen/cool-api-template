@@ -8,23 +8,23 @@ export class LoginLog extends BaseEntity implements IEntity {
 	@Column({ length: 32 })
 	ip: string
 
-	@Column()
+	@Column({ nullable: true })
 	userId: string
 
-	@Column()
+	@Column({ nullable: true })
 	username: string
 
 	@Column({ type: 'boolean', default: false })
 	isMobile: boolean
 
-	@Column({ default: '' })
+	@Column({ default: '', nullable: true })
 	message: string
 
-	@Column({ default: '' })
-	browser?: string
+	@Column({ default: '', nullable: true })
+	browser: string
 
-	@Column({ default: '' })
-	os?: string
+	@Column({ default: '', nullable: true })
+	os: string
 
 	@Column({
 		type: 'enum',
@@ -33,6 +33,6 @@ export class LoginLog extends BaseEntity implements IEntity {
 	})
 	loginState: LoginState
 
-	@Column({ default: '' })
-	idaddr?: string
+	@Column({ default: '', nullable: true })
+	ipAddr: string
 }

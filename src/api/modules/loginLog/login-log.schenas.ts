@@ -3,7 +3,7 @@ import { list } from '@utils/enum'
 import { LoginState } from './login-log.enum'
 
 const ip = (): AnySchema => {
-	return Joi.string().ip().messages({
+	return Joi.string().allow(null, '').ip().messages({
 		'string.ip': '请输入合法 IP'
 	})
 }
