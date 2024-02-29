@@ -22,10 +22,27 @@ export abstract class AppModule extends BaseRouter {
 	 * @description 路由集合
 	 */
 	abstract routes(): IAppRoute[]
+	/**
+	 * @description 注入身份认证中间件
+	 * @returns
+	 */
 	importAuth(): RequestHandler[] {
 		return []
 	}
+
+	/**
+	 * @description 应用实例化完成后要进行的操作
+	 */
 	async plug(): Promise<void> {}
+
+	/**
+	 * @description 自定义全局前置中间件
+	 * @returns
+	 */
+	prevMiddles(): RequestHandler[] {
+		return []
+	}
+
 	constructor() {
 		super()
 		this.routes().forEach(route => {

@@ -4,7 +4,7 @@ import { IResponse } from './http-response'
 import { IError } from './error'
 import { CoolAppConfig } from './cool'
 import { IRequest } from './http-request'
-import { IAppRoute, IRoute } from './route'
+import { IAppRoute, IRoute, AppProvider } from './route'
 import { Type } from './type'
 
 export {
@@ -17,5 +17,6 @@ export {
 	IRequest,
 	CoolAppConfig,
 	IAppRoute,
-	IRoute
+	IRoute,
+	AppProvider
 }

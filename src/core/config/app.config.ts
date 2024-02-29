@@ -13,7 +13,7 @@ import Catch from '@middlewares/catch'
 import Resolve from '@middlewares/resolve'
 import Cache from '@middlewares/cache'
 
-import { CoolAppConfig } from '@interfaces'
+import { CoolAppConfig, AppProvider } from '@interfaces'
 import { AppModule } from '@classes'
 
 class ExpressConfiguration {
@@ -91,15 +91,22 @@ class ExpressConfiguration {
 	 * @param options 配置
 	 * @returns
 	 */
-	async setup<T extends AppModule = AppModule>(
-		appModule: any,
+	async setup<T extends AppProvider>(
+		appModule: T,
 		options: CoolAppConfig
 	): Promise<Express.Application> {
 		this.instance = Express()
 		this.options = options
-		const module = new appModule() as T
-		this.module = module
+		this.module = new appModule()
+
+		// 执行异步任务
 		if (this.module.plug) await this.module.plug()
+
+		// 挂载全局前置中间件
+		const middles = this.module.prevMiddles()
+		if (middles.length) this.instance.use(...this.module.prevMiddles())
+
+		// 解决跨域(可配置)
 		if (this.options.cors) this.instance.use(Cors())
 		return this.instance
 	}

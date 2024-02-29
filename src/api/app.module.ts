@@ -1,5 +1,4 @@
 import { AppModule as Module } from '@classes'
-import { IAppRoute } from '@interfaces'
 import { Guard } from './middlewares'
 import { RoleCache } from './services/role.cache.service'
 
@@ -18,7 +17,13 @@ export class AppModule extends Module {
 		return [Guard.checkJwt]
 	}
 
-	routes(): IAppRoute[] {
+	plug = async () => {
+		await RoleCache.set()
+	}
+
+	prevMiddles = () => []
+
+	routes() {
 		return [
 			{ segment: '/v1/auth', provider: AuthRouter },
 			{ segment: '/v1/users', auth: true, provider: UserRouter },
@@ -37,10 +42,6 @@ export class AppModule extends Module {
 				provider: LoginLogRouter
 			}
 		]
-	}
-
-	async plug(): Promise<void> {
-		await RoleCache.set()
 	}
 
 	constructor() {
