@@ -16,7 +16,7 @@ const defaultConfig: CoolAppConfig = {
 	cache: true,
 
 	// winston 日志
-	log: true,
+	log: false,
 
 	// 接口前缀
 	prefix: API_PREFIX,
