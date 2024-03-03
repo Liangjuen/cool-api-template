@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as UserAgent from 'express-useragent'
 import { Request } from 'express'
 import { LoginLogRepository } from './login.repository'
@@ -53,15 +52,7 @@ export class LoginLogController {
 	@Resolve()
 	static async list(req: IRequest, res: IResponse) {
 		const loginLogepository = new LoginLogRepository()
-		const { result, total, cPage, size } = await loginLogepository.list(
-			req.query
-		)
-		res.locals.data = {
-			result,
-			total,
-			cPage,
-			size
-		}
+		res.locals.data = await loginLogepository.list(req.query)
 	}
 
 	/**
@@ -80,7 +71,7 @@ export class LoginLogController {
 	 * @description 删除所有日志
 	 */
 	@Resolve()
-	static async clear(req: Request, res: IResponse) {
+	static async clear() {
 		const loginLogepository = new LoginLogRepository()
 		await loginLogepository.clear()
 	}

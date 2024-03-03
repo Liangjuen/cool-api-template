@@ -33,7 +33,8 @@ export enum DictPermission {
 export enum LogsPermission {
 	LoginList = 'logs:login:list',
 	LoginRemove = 'logs:login:remove',
-	LoginClear = 'logs:login:clear'
+	LoginClear = 'logs:login:clear',
+	LoginExport = 'logs:login:export'
 }
 
 const permToList = (enms: Record<string, unknown>[]) => {
