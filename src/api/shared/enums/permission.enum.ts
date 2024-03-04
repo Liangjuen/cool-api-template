@@ -1,5 +1,10 @@
 import { list } from '@utils/enum'
 export enum BasePermission {
+	DepartmentList = 'base:department:list',
+	DepartmentGet = 'base:department:get',
+	DepartmentCreate = 'base:department:create',
+	DepartmentUpdate = 'base:department:update',
+	DepartmentRemove = 'base:department:remove',
 	UserList = 'base:user:list',
 	UserGet = 'base:user:get',
 	UserCreate = 'base:user:create',

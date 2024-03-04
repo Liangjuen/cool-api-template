@@ -1,6 +1,6 @@
 import Joi from 'joi'
-import { typeId, name, value, remark, orderNum } from './dict.schemas'
-import { id, pId, sort, order, keyword } from '@shared/schemas'
+import { typeId, name, value, remark } from './dict.schemas'
+import { id, pId, sort, order, keyword, orderNum } from '@shared/schemas'
 import { remove } from '@shared/validations'
 
 const get = {

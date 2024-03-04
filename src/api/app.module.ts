@@ -11,6 +11,7 @@ import { AuthRouter } from './modules/auth/auth.router'
 import { RoleRouter } from './modules/base/role/role.router'
 import { MenuRouter } from './modules/base/menu/menu.router'
 import { PermsRouter } from './modules/base/perms/perms.router'
+import { DepartmentRouter } from './modules/base/department/department.router'
 
 export class AppModule extends Module {
 	importAuth() {
@@ -30,6 +31,7 @@ export class AppModule extends Module {
 			{ segment: '/v1/roles', auth: true, provider: RoleRouter },
 			{ segment: '/v1/menus', auth: true, provider: MenuRouter },
 			{ segment: '/v1/perms', auth: true, provider: PermsRouter },
+			{ segment: '/v1/departments', auth: true, provider: DepartmentRouter },
 			{ segment: '/v1/dicts', auth: true, provider: DictRouter },
 			{
 				segment: '/v1/dictTypes',

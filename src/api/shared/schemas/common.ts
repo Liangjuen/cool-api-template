@@ -72,6 +72,8 @@ const sort = () =>
 
 const pId = () => Joi.number().integer().allow(null)
 
+const orderNum = () => Joi.number().integer()
+
 export {
 	id,
 	email,
@@ -85,5 +87,6 @@ export {
 	keyword,
 	order,
 	sort,
-	pId
+	pId,
+	orderNum
 }
