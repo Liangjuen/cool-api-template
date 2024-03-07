@@ -1,6 +1,7 @@
 import Joi from 'joi'
 import { name } from './department.schemas'
 import { id, orderNum, pId } from '@shared/schemas'
+import { remove } from '@shared/validations'
 
 export const get = {
 	params: Joi.object({
@@ -31,8 +32,4 @@ export const update = {
 	})
 }
 
-export const remove = {
-	params: Joi.object({
-		id: id().required()
-	})
-}
+export { remove }
