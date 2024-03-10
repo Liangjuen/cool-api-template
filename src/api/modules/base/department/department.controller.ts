@@ -62,7 +62,8 @@ export class DepartmentController {
 		const findDepart = await repo.findOneBy({ name })
 		if (findDepart && findDepart.id !== id)
 			throw new BadRequest('部门名已被占用')
-		const department = repo.create({
+		const department = await repo.findOneBy({ id })
+		repo.merge(department, {
 			orderNum: parseInt(orderNum + '', 10),
 			pId,
 			name
