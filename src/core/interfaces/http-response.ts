@@ -10,11 +10,6 @@ interface IResponseData {
 		| Array<Record<string, unknown>>
 		| IEntity
 		| IEntity[]
-	meta?: {
-		total: number
-		current?: number
-		size?: number
-	}
 }
 
 /**

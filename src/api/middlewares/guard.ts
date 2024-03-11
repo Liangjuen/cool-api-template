@@ -1,7 +1,6 @@
 import { NextFunction, Response } from 'express'
 import { IRequest, IResponse } from '@interfaces'
 import { Auth, JwtPayload } from '@api/services/auth.service'
-import { Redis } from '@config'
 import { AUTH } from '@constants'
 import { Unauthorized, Forbidden } from '@exceptions'
 import { RoleCache } from '../services/role.cache.service'
@@ -24,15 +23,10 @@ export class Guard {
 		// 无 token 则直接返回无权限
 		if (!token) return next(new Forbidden())
 
-		// 查询 Redis 黑名单
-		const userId = await Redis.client.get(token)
-
-		// 如果查询到在黑名单则 响应重新登录
-		if (userId && userId !== null) return next(new Unauthorized('已退出登录'))
-
 		let jwtPayload: JwtPayload
 
 		// 验证令牌并获取数据
+		// 挂载用户信息
 		try {
 			jwtPayload = Auth.verify(token)
 			req.user = jwtPayload
@@ -40,6 +34,12 @@ export class Guard {
 			//如果令牌无效，则响应401(未授权)
 			return next(new Unauthorized(error.message))
 		}
+
+		// 查询 Redis 白名单
+		const useful = await Auth.whiteListHas(jwtPayload, token)
+
+		// 如果未查询到在白名单则 响应重新登录(token已失效)
+		if (!useful) return next(new Unauthorized('已退出登录'))
 
 		//设置令牌有效期
 		//每个请求都发送一个新的令牌

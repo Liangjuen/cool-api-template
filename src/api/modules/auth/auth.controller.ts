@@ -4,7 +4,6 @@ import { IRequest, IResponse } from '@interfaces'
 import { Auth as AuthService, JwtPayload } from '@api/services/auth.service'
 import { UserRepository } from '../base/user/user.repository'
 import { BadRequest, NotFound } from '@exceptions'
-import { AUTH } from '@constants/auth'
 import { LoginLogController } from '@api/modules/loginLog/login-log.controller'
 import { MenuRepository } from '@api/modules/base/menu/menu.repository'
 import { RoleRepository } from '@api/modules/base/role/role.repository'
@@ -78,6 +77,7 @@ export class AuthController {
 		let message: string = '登录成功'
 		if (user == null) {
 			message = '未查询到用户'
+			LoginLogController.create(req, user, 0, message)
 			throw new NotFound(message)
 		}
 
@@ -99,6 +99,8 @@ export class AuthController {
 		}
 		res.locals.msg = message
 		LoginLogController.create(req, user, 1, message)
+		// token 存入白名单
+		await AuthService.tokenWhitelisting(token, user)
 	}
 
 	/**
@@ -118,6 +120,7 @@ export class AuthController {
 		let message: string = '登录成功'
 		if (user == null) {
 			message = '未查询到用户'
+			LoginLogController.create(req, user, 0, message)
 			throw new NotFound(message)
 		}
 
@@ -141,6 +144,8 @@ export class AuthController {
 		}
 		res.locals.msg = message
 		LoginLogController.create(req, user, 1, message)
+		// token 存入白名单
+		await AuthService.tokenWhitelisting(token, user)
 	}
 
 	/**
@@ -150,6 +155,6 @@ export class AuthController {
 	 */
 	@Resolve()
 	static async logout(req: IRequest<JwtPayload>) {
-		await AuthService.tokenBlacklisting(req.headers[AUTH], req.user)
+		await AuthService.delWhiteListItem(req.user)
 	}
 }

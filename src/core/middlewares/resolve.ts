@@ -38,8 +38,7 @@ export default class Resolve {
 					await CacheService.setList(cacheKey, res.locals.data)
 					const others = {
 						code: res.locals.code,
-						msg: res.locals.msg,
-						meta: res.locals.meta
+						msg: res.locals.msg
 					}
 					await CacheService.set(
 						CacheService.metaKey(cacheKey),
