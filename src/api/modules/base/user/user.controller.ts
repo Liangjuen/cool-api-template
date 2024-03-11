@@ -17,9 +17,7 @@ export class UserController {
 	static async get(req: IRequest, res: IResponse) {
 		const repository = new UserRepository()
 		const user = await repository.one(parseInt(req.params.id, 10))
-		if (!user) {
-			throw new NotFound('没有查询到相关用户')
-		}
+		if (!user) throw new NotFound('没有查询到相关用户')
 		res.locals.data = user
 	}
 
@@ -31,13 +29,7 @@ export class UserController {
 	@Resolve()
 	static async list(req: IRequest, res: IResponse) {
 		const userRepository = new UserRepository()
-		const { result, total, cPage, size } = await userRepository.list(req.query)
-		res.locals.data = result
-		res.locals.meta = {
-			total,
-			current: cPage,
-			size
-		}
+		res.locals.data = await userRepository.list(req.query)
 	}
 
 	/**

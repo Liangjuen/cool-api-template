@@ -44,7 +44,7 @@ export class UserRouter extends RouteModule {
 					Validator.check(update),
 					UserController.update
 				],
-				method: METHOD.Patch
+				method: METHOD.Put
 			},
 			{
 				segment: '/:ids',

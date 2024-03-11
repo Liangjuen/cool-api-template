@@ -1,4 +1,4 @@
-import { Entity, Column, BeforeInsert } from 'typeorm'
+import { Entity, Column, BeforeInsert, Index } from 'typeorm'
 import bcrypt from 'bcrypt'
 import { IEntity } from '@interfaces'
 import { BaseEntity } from '@classes'
@@ -6,19 +6,39 @@ import { ROLE, Gender, Status } from '@shared/enums'
 
 @Entity()
 export class User extends BaseEntity implements IEntity {
-	@Column({ unique: true })
+	@Index()
+	@Column({ comment: '部门ID', type: 'bigint', nullable: true })
+	departmentId: number
+
+	@Column({ comment: '姓名', nullable: true })
+	name: string
+
+	@Index({ unique: true })
+	@Column({ comment: '用户名', length: 100 })
 	username: string
 
-	@Column({ select: false })
+	@Column({ comment: '密码', select: false })
 	password: string
 
-	@Column({ length: 128, unique: true })
+	@Column({ comment: '昵称', nullable: true })
+	nickName: string
+
+	@Index({ unique: true })
+	@Column({ comment: '邮箱', nullable: true })
 	email: string
 
-	@Column({ type: 'simple-array' })
+	@Index()
+	@Column({ comment: '手机', nullable: true, length: 20 })
+	phone: string
+
+	@Column({
+		comment: '角色code',
+		type: 'simple-array'
+	})
 	roles: Array<string>
 
 	@Column({
+		comment: '状态',
 		type: 'enum',
 		enum: Status,
 		default: Status.normal
@@ -26,20 +46,21 @@ export class User extends BaseEntity implements IEntity {
 	status: Status
 
 	@Column({
+		comment: '性别',
 		type: 'enum',
 		enum: Gender,
 		default: Gender.x
 	})
 	gender: Gender
 
-	@Column({ type: 'simple-array', default: null })
-	tags?: Array<string>
+	@Column({ comment: '标签', type: 'simple-array', nullable: true })
+	tags: Array<string>
 
-	@Column({ default: '' })
-	avatar?: string
+	@Column({ comment: '头像', nullable: true })
+	avatar: string
 
-	@Column({ default: '' })
-	description?: string
+	@Column({ comment: '备注', nullable: true })
+	remark: string
 
 	@BeforeInsert()
 	setUserRole() {
