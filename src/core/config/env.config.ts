@@ -9,7 +9,8 @@ import {
 	EnvTypeorm,
 	EnvLog,
 	EnvRedis,
-	EnvEmail
+	EnvEmail,
+	EnvQiniu
 } from '@types'
 
 export class Environment {
@@ -22,6 +23,11 @@ export class Environment {
 	 * @description 错误集合
 	 */
 	errors: string[] = []
+
+	/**
+	 * @description 警告集合
+	 */
+	warnings: string[] = []
 
 	/**
 	 * @description 具有聚合数据的集群
@@ -75,7 +81,13 @@ export class Environment {
 		'EMAIL_OPERATOR_HOST',
 		'EMAIL_OPERATOR_PORT',
 		'EMAIL_USER',
-		'EMAIL_PASS'
+		'EMAIL_PASS',
+		'QINIU_ACCESS_KEY',
+		'QINIU_SECRET_KEY',
+		'QINIU_DOMAIN',
+		'QINIU_REGION',
+		'QINIU_BUCKET',
+		'QINIU_UPLOAD_URL'
 		// more ...
 	]
 
@@ -437,6 +449,51 @@ export class Environment {
 
 		EMAIL_PASS: (value: string): string => {
 			return value || ''
+		},
+
+		QINIU_ACCESS_KEY: (value: string) => {
+			if (!value) {
+				this.errors.push('QINIU_ACCESS_KEY未定义:请定义七牛云 accessKey')
+			}
+			return value || ''
+		},
+		QINIU_SECRET_KEY: (value: string) => {
+			if (!value) {
+				this.errors.push('QINIU_SECRET_KEY未定义:请定义七牛云 secretKey')
+			}
+			return value || ''
+		},
+		QINIU_DOMAIN: (value: string) => {
+			if (!value) {
+				this.errors.push('QINIU_DOMAIN未定义:请定义七牛云空间访问域名')
+			}
+			return value || ''
+		},
+		QINIU_BUCKET: (value: string) => {
+			if (!value) {
+				this.errors.push('QINIU_BUCKET未定义:请定义七牛云空间名')
+			}
+			return value || ''
+		},
+
+		QINIU_REGION: (value: string) => {
+			const defaultVal = 'z2'
+			if (!value) {
+				this.warnings.push(
+					`[QINIU_REGION] 未定义: 已使用默认配置: ${defaultVal}`
+				)
+			}
+			return value || defaultVal
+		},
+
+		QINIU_UPLOAD_URL: (value: string) => {
+			const defaultVal = 'http://upload.qiniu.com/'
+			if (!value) {
+				this.warnings.push(
+					`[QINIU_UPLOAD_URL] 未定义: 已使用默认配置: ${defaultVal}`
+				)
+			}
+			return value || defaultVal
 		}
 
 		// more ...
@@ -544,6 +601,14 @@ export class Environment {
 				PORT: this.variables.EMAIL_OPERATOR_PORT,
 				USER: this.variables.EMAIL_USER,
 				PASS: this.variables.EMAIL_PASS
+			},
+			QINIU: {
+				AK: this.variables.QINIU_ACCESS_KEY,
+				SK: this.variables.QINIU_SECRET_KEY,
+				DOMAIN: this.variables.QINIU_DOMAIN,
+				REGION: this.variables.QINIU_REGION,
+				BUCKET: this.variables.QINIU_BUCKET,
+				UPLOAD_URL: this.variables.QINIU_UPLOAD_URL
 			}
 			// more ...
 		}
@@ -585,6 +650,7 @@ export class Environment {
 			API_PREFIX: this.cluster.API_PREFIX as string,
 			REDIS: this.cluster.REDIS as EnvRedis,
 			EMAIL: this.cluster.EMAIL as EnvEmail,
+			QINIU: this.cluster.QINIU as EnvQiniu,
 			isDev: this.isDev,
 			isProd: this.isProd,
 			isTest: this.isTest
@@ -597,18 +663,37 @@ export class Environment {
 	 */
 	exit(messages: string | string[]): void {
 		if (Array.isArray(messages)) {
-			process.stdout.write('\n\x1b[41m[ERROR]\x1b[40m\n\n')
-			process.stdout.write([''].concat(messages).join('\n'))
+			process.stdout.write('\n\x1b[41m[配置错误]\x1b[40m\n\n')
+			messages.forEach(err => {
+				process.stdout.write(`${err}\n`)
+			})
+			process.stdout.write('\n')
 		} else {
 			process.stdout.write(messages)
 		}
 		process.exit(0)
 	}
+
+	/**
+	 * @description 提示信息
+	 * @param warnings
+	 */
+	warn() {
+		this.warnings.length
+		if (this.warnings.length) {
+			process.stdout.write('\n\x1b[33m[警告]\x1b[0m\n\n')
+			this.warnings.forEach(err => {
+				process.stdout.write(`${err}\n`)
+			})
+			process.stdout.write('\n')
+		}
+		return this
+	}
 }
 
 const environment = new Environment()
 
-environment.loads().extracts(process.env).validates().aggregates()
+environment.loads().extracts(process.env).validates().aggregates().warn()
 
 if (!environment.isValid()) environment.exit(environment.errors)
 
@@ -628,6 +713,7 @@ export const {
 	API_PREFIX,
 	REDIS,
 	EMAIL,
+	QINIU,
 	isDev,
 	isProd,
 	isTest

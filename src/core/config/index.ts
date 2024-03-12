@@ -1,16 +1,13 @@
-import { Application } from './app.config'
-import { LoggerConfiguration } from './logger.config'
-import { configuration } from './configuration'
+export { Application } from './app.config'
+export { LoggerConfiguration } from './logger.config'
+export { configuration } from './configuration'
 import DataBase, { DateSource } from './database.config'
-import { Redis } from './redis.config'
-import { EmailConfig } from './mailer.config'
-
+export { Redis } from './redis.config'
+export { EmailConfig } from './mailer.config'
 export {
-	configuration,
-	DateSource,
-	Application,
-	DataBase,
-	Redis,
-	EmailConfig,
-	LoggerConfiguration
-}
+	coolFileConfig,
+	QiniuConfiguration,
+	LocalConfiguration
+} from './file.config'
+
+export { DateSource, DataBase }

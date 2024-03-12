@@ -6,7 +6,8 @@ import {
 	EnvTypeorm,
 	EnvLog,
 	EnvRedis,
-	EnvEmail
+	EnvEmail,
+	EnvQiniu
 } from './environment-cluster'
 
 export {
@@ -17,5 +18,6 @@ export {
 	EnvTypeorm,
 	EnvLog,
 	EnvRedis,
-	EnvEmail
+	EnvEmail,
+	EnvQiniu
 }

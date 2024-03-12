@@ -33,6 +33,15 @@ type EnvEmail = {
 	PASS: string
 }
 
+type EnvQiniu = {
+	AK: string
+	SK: string
+	DOMAIN: string
+	BUCKET: string
+	REGION: string
+	UPLOAD_URL: string
+}
+
 export {
 	EnvAccessToken,
 	EnvServer,
@@ -40,5 +49,6 @@ export {
 	EnvTypeorm,
 	EnvLog,
 	EnvRedis,
-	EnvEmail
+	EnvEmail,
+	EnvQiniu
 }
