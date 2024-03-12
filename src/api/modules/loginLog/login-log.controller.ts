@@ -18,7 +18,7 @@ export class LoginLogController {
 	 */
 	static async create(
 		req: IRequest,
-		user: User,
+		user: User | { username: string; id: number },
 		state: LoginState,
 		message: string
 	) {

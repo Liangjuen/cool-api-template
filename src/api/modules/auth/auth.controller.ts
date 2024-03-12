@@ -77,7 +77,7 @@ export class AuthController {
 		let message: string = '登录成功'
 		if (user == null) {
 			message = '未查询到用户'
-			LoginLogController.create(req, user, 0, message)
+			LoginLogController.create(req, { username: email, id: 0 }, 0, message)
 			throw new NotFound(message)
 		}
 
@@ -120,7 +120,7 @@ export class AuthController {
 		let message: string = '登录成功'
 		if (user == null) {
 			message = '未查询到用户'
-			LoginLogController.create(req, user, 0, message)
+			LoginLogController.create(req, { username, id: 0 }, 0, message)
 			throw new NotFound(message)
 		}
 
