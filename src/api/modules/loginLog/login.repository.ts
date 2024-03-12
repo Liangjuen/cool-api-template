@@ -71,6 +71,8 @@ export class LoginLogRepository extends Repository<LoginLog> {
 			})
 		}
 
+		query.addOrderBy('createdAt', 'DESC')
+
 		const [result, total] = await query.skip(skip).take(take).getManyAndCount()
 
 		return {
