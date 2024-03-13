@@ -9,9 +9,7 @@ import { IHTTPException, IRequest } from '@interfaces'
 import { HttpResponseMessage as Msg } from '@constants'
 import { HttpResponseStatusCode as HttpCode } from '@enums'
 
-export default class Catch {
-	private constructor() {}
-
+class Catch {
 	/**
 	 * @description 加工错误
 	 *
@@ -20,7 +18,7 @@ export default class Catch {
 	 * @param res 表示响应对象
 	 * @param next 回调
 	 */
-	static factory(
+	factory(
 		err: Error,
 		req: Request,
 		res: Response,
@@ -37,7 +35,7 @@ export default class Catch {
 	 * @param res Express 响应对象
 	 * @param next 回调
 	 */
-	static log(
+	log(
 		err: IHTTPException,
 		req: IRequest,
 		res: Response,
@@ -67,7 +65,7 @@ export default class Catch {
 	 * @param req 从http.incomingMessage派生的快速请求对象
 	 * @param res 表示响应对象
 	 */
-	static exit(
+	exit(
 		err: IHTTPException,
 		req: Request,
 		res: Response,
@@ -89,7 +87,7 @@ export default class Catch {
 	 * @param req Express 请求对象
 	 * @param res Express 响应对象
 	 */
-	static notFound(req: Request, res: Response): void {
+	notFound(req: Request, res: Response): void {
 		res.status(HttpCode.NotFound)
 		res.json({
 			statusCode: HttpCode.NotFound,
@@ -98,3 +96,5 @@ export default class Catch {
 		})
 	}
 }
+
+export default new Catch()

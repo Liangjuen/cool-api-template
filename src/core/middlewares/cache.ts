@@ -7,7 +7,7 @@ const mcache = new Mcache({
 	duration: MEMORY_CACHE.DURATION
 })
 
-export default class Cache {
+class Cache {
 	/**
 	 * @description 请求缓存中间件
 	 *
@@ -15,11 +15,7 @@ export default class Cache {
 	 * @param res Express response
 	 * @param next Middleware function
 	 */
-	static async listen(
-		req: IRequest,
-		res: IResponse,
-		next: () => void
-	): Promise<void> {
+	async listen(req: IRequest, res: IResponse, next: () => void): Promise<void> {
 		if (!mcache.isCachable(req)) return next()
 		const cacheKey = mcache.key(req)
 		const cached = (await mcache.getList(cacheKey)) as Array<any>
@@ -35,3 +31,5 @@ export default class Cache {
 		next()
 	}
 }
+
+export default new Cache()

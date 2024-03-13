@@ -4,7 +4,7 @@ import { HttpResponseStatusCode as HttpCode } from '@enums'
 import { getStatusCode } from '@utils/http'
 import { CacheService } from '@services'
 
-export default class Resolve {
+class Resolve {
 	/**
 	 * @description 解析当前请求并获取输出(除开404错误)
 	 * @param req Express Request 的派生对象
@@ -12,7 +12,7 @@ export default class Resolve {
 	 * @param next 回调函数
 	 * @returns
 	 */
-	static async output(req: Request, res: IResponse, next: (e?: Error) => void) {
+	async output(req: Request, res: IResponse, next: (e?: Error) => void) {
 		const hasContent = typeof res.locals?.data !== 'undefined'
 		const hasNullContent = res.locals.data === null
 		const hasStatusCodeOnResponse = typeof res.statusCode !== 'undefined'
@@ -51,3 +51,5 @@ export default class Resolve {
 		}
 	}
 }
+
+export default new Resolve()

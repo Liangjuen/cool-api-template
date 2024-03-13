@@ -2,14 +2,14 @@ import { Request, Response, NextFunction } from 'express'
 import { extract } from '@utils/client-request-parse'
 import { Logger as LoggerService } from '@services/Logger'
 
-export default class Logger {
+class Logger {
 	/**
 	 * @description 记录请求
 	 * @param req
 	 * @param res
 	 * @param next
 	 */
-	static write(req: Request, res: Response, next: NextFunction) {
+	write(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { ip, method, httpVersion, url } = extract(req)
 			LoggerService.http(`[${ip} http(${httpVersion})]${url}`, {
@@ -21,7 +21,9 @@ export default class Logger {
 		}
 	}
 
-	static transport() {
+	transport() {
 		// 传输 ...
 	}
 }
+
+export default new Logger()
