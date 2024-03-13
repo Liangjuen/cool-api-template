@@ -2,9 +2,8 @@ import { RouteModule } from '@classes'
 import { RequestMethod as METHOD } from '@enums'
 import { IRoute } from '@interfaces'
 import { RoleController } from './role.controller'
-import { Validator } from '@api/middlewares/validator'
+import { Validator, Guard } from '@api/middlewares'
 import { get, list, create, update, remove } from './role.validation'
-import { Guard } from '@api/middlewares/guard'
 import { BasePermission } from '@shared/enums/permission.enum'
 
 export class RoleRouter extends RouteModule {

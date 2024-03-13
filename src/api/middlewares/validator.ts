@@ -4,13 +4,13 @@ import { ObjectSchema } from 'joi'
 /**
  * 校验器中间件
  */
-export class Validator {
+class Validator {
 	/**
 	 * @description 校验器
 	 * @param schema 校验规则
 	 * @returns
 	 */
-	static check =
+	check =
 		(schema: Record<string, ObjectSchema>) =>
 		(req: Request, res: Response, next: (e?: Error) => void): void => {
 			const schemaObjects = ['query', 'body', 'params'].filter(
@@ -36,3 +36,5 @@ export class Validator {
 			next()
 		}
 }
+
+export default new Validator()

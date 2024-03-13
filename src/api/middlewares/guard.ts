@@ -6,15 +6,11 @@ import { Unauthorized, Forbidden } from '@exceptions'
 import { RoleCache } from '../services/role.cache.service'
 import { ROLE } from '@shared/enums'
 
-export class Guard {
+class Guard {
 	/**
 	 * @description token 校验
 	 */
-	static checkJwt = async (
-		req: IRequest,
-		res: Response,
-		next: NextFunction
-	) => {
+	checkJwt = async (req: IRequest, res: Response, next: NextFunction) => {
 		//从头部获取jwt令牌
 		const tokenStr = req.headers[AUTH] || ''
 		const token = tokenStr.replace('Bearer ', '')
@@ -51,7 +47,7 @@ export class Guard {
 	/**
 	 * @description 权限校验
 	 */
-	static checkPermission = (permCode: string) => {
+	checkPermission = (permCode: string) => {
 		return async (
 			req: IRequest<JwtPayload>,
 			res: IResponse,
@@ -87,3 +83,5 @@ export class Guard {
 		}
 	}
 }
+
+export default new Guard()

@@ -2,9 +2,8 @@ import { RouteModule } from '@classes'
 import { IRoute } from '@core/interfaces'
 import { RequestMethod } from '@enums'
 import { MenuController } from './menus.controller'
-import { Validator } from '@api/middlewares/validator'
+import { Validator, Guard } from '@api/middlewares'
 import { get, list, create, update, remove } from './menu.validation'
-import { Guard } from '@api/middlewares/guard'
 import { BasePermission } from '@shared/enums/permission.enum'
 
 export class MenuRouter extends RouteModule {
