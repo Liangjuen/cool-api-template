@@ -2,9 +2,8 @@ import { RouteModule } from '@classes'
 import { RequestMethod as METHOD } from '@enums'
 import { IRoute } from '@core/interfaces'
 import { DepartmentController } from './department.controller'
-import { Validator } from '@api/middlewares/validator'
+import { Validator, Guard } from '@api/middlewares'
 import { get, create, update, remove } from './department.validation'
-import { Guard } from '@api/middlewares/guard'
 import { BasePermission } from '@shared/enums/permission.enum'
 
 export class DepartmentRouter extends RouteModule {
