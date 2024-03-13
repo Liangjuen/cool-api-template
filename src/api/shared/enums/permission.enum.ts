@@ -42,6 +42,11 @@ export enum LogsPermission {
 	LoginExport = 'logs:login:export'
 }
 
+export enum CommonPermission {
+	FileUpload = 'comm:file:upload',
+	FileDelete = 'comm:file:delete'
+}
+
 const permToList = (enms: Record<string, unknown>[]) => {
 	const perms: string[] = []
 	enms.forEach(e => {
@@ -53,5 +58,6 @@ const permToList = (enms: Record<string, unknown>[]) => {
 export const perms = permToList([
 	BasePermission,
 	DictPermission,
-	LogsPermission
+	LogsPermission,
+	CommonPermission
 ])

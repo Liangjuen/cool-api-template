@@ -1,3 +1,2 @@
-import { Status } from './status-enum'
-import { Gender, ROLE } from './user'
-export { ROLE, Status, Gender }
+export { Status } from './status-enum'
+export { Gender, ROLE } from './user'

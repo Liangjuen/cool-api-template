@@ -1,4 +1,2 @@
-import { IEntity as IBaseEntity, IResponse, IRequest } from '@interfaces'
-import { IRequestQuery, IRequestParams } from './request.interface'
-
-export { IRequestParams, IRequestQuery, IBaseEntity, IResponse, IRequest }
+export { IEntity as IBaseEntity, IResponse, IRequest } from '@interfaces'
+export { IRequestQuery, IRequestParams } from './request.interface'
