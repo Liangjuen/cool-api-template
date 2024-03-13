@@ -1,7 +1,7 @@
 import QINIU from 'qiniu'
 import { coolFileConfig } from '@config'
 import { CoolFileEngine } from '@interfaces'
-import { STOREDMODE, CLOUDTYPE } from '@enums'
+import { CLOUDTYPE } from '@enums'
 
 /**
  * @description 七牛云
@@ -36,15 +36,6 @@ class Qiniu implements CoolFileEngine {
 	}
 }
 
-class Local implements CoolFileEngine {
-	async upload<T extends Record<string, unknown>>(ctx: T) {
-		console.log(ctx)
-		return {
-			url: ''
-		}
-	}
-}
-
 /**
  * @description 文件上传/删除/...
  */
@@ -56,12 +47,6 @@ class CoolFile {
 	 * @description 存储引擎
 	 */
 	get engine(): CoolFileEngine {
-		const { mode, qiniu } = this.config
-		if (mode == STOREDMODE.LOCAL) {
-			return this.local
-		} else if (mode == STOREDMODE.CLOUD) {
-			if (qiniu) return this.qiniu
-		} //...
 		return this.qiniu
 	}
 
@@ -70,17 +55,9 @@ class CoolFile {
 	 */
 	qiniu = new Qiniu()
 
-	/**
-	 * @description 本地存储
-	 */
-	local = new Local()
-
-	async upload(ctx?: any) {
-		const { mode, qiniu } = this.config
-		if (mode == STOREDMODE.LOCAL) {
-			return await this.local.upload(ctx)
-		}
-		if (mode == STOREDMODE.CLOUD) {
+	async upload() {
+		const { cloud, qiniu } = this.config
+		if (cloud == CLOUDTYPE.QINIU) {
 			if (qiniu) {
 				return await this.qiniu.upload()
 			}
@@ -88,23 +65,16 @@ class CoolFile {
 	}
 
 	/**
-	 * @description 获取上传模式
+	 * @description 获取上传云
 	 * @returns
 	 */
-	async getMode() {
-		const { mode, qiniu } = this.config
-		if (mode == STOREDMODE.LOCAL) {
-			return {
-				mode: STOREDMODE.LOCAL,
-				type: STOREDMODE.LOCAL
-			}
+	async getUploadCloud() {
+		const { cloud, qiniu } = this.config
+		if (qiniu && cloud == CLOUDTYPE.QINIU) {
+			return { type: CLOUDTYPE.QINIU }
 		}
-		if (qiniu) {
-			return {
-				mode: STOREDMODE.CLOUD,
-				type: CLOUDTYPE.QINIU
-			}
-		}
+		// 默认
+		return { type: CLOUDTYPE.QINIU }
 	}
 }
 

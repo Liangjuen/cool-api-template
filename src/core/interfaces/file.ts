@@ -1,19 +1,18 @@
-import { STOREDMODE } from '@enums'
+import { CLOUDTYPE } from '@enums'
 
 /**
  * 文件存储配置
  */
 export interface CoolFileConfig {
-	mode: STOREDMODE
+	cloud: CLOUDTYPE
 	qiniu: QINIUConfig
-	local: LOCALConfig
 }
 
 /**
  * 存储引擎
  */
 export interface CoolFileEngine {
-	upload<T extends Record<string, unknown>>(ctx: T): Promise<unknown>
+	upload(ctx: any): Promise<unknown>
 }
 
 /**
@@ -27,13 +26,4 @@ export interface QINIUConfig {
 	bucket: string
 	uploadUrl?: string
 	fileKey?: string
-}
-
-/**
- * 本地
- */
-export interface LOCALConfig {
-	maxSize: number
-	limit: number
-	dir: string
 }
