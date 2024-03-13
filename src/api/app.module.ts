@@ -12,7 +12,7 @@ import { RoleRouter } from './modules/base/role/role.router'
 import { MenuRouter } from './modules/base/menu/menu.router'
 import { PermsRouter } from './modules/base/perms/perms.router'
 import { DepartmentRouter } from './modules/base/department/department.router'
-import { FileRouter } from './modules/file/file.router'
+import { FileRouter } from './modules/common/file/file.router'
 
 export class AppModule extends Module {
 	importAuth() {

@@ -2,7 +2,7 @@ import { RouteModule } from '@classes'
 import { RequestMethod as METHOD } from '@enums'
 import { IRoute } from '@interfaces'
 import { DictTypeController } from './controller'
-import { Validator } from '@api/middlewares/validator'
+import { Validator } from '@api/middlewares'
 import { create, update, remove } from './validation'
 
 export class DictTypeRouter extends RouteModule {
