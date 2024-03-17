@@ -34,7 +34,7 @@ export class MenuController {
 			startDate,
 			endDate,
 			sort = 'sort',
-			order = 'DESC'
+			order = 'ASC'
 		} = req.query
 		const repository = new MenuRepository()
 		const query = repository.createQueryBuilder('menu')

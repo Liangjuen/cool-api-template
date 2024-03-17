@@ -31,7 +31,8 @@ class Qiniu implements CoolFileEngine {
 			uploadUrl: region ? `https://upload-${region}.qiniup.com/` : uploadUrl,
 			token: uploadToken,
 			publicDomain: domain,
-			fileKey
+			fileKey,
+			cloud: CLOUDTYPE.QINIU
 		}
 	}
 }

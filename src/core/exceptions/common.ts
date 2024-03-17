@@ -36,6 +36,7 @@ export class ValidationException
 		this.statusText = '验证错误'
 		this.errors = this.convertError(error.details || [])
 		this.name = 'BadRequest'
+		this.message = this.convertError(error.details || [])[0].message
 	}
 
 	/**
