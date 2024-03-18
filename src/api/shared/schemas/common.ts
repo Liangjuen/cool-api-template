@@ -50,6 +50,11 @@ const description = (): AnySchema =>
 		'string.max': '描述信息不超过 120 字'
 	})
 
+const remark = (): AnySchema =>
+	Joi.string().max(120).messages({
+		'string.max': '备注信息不超过 120 字'
+	})
+
 const ids = (): AnySchema =>
 	Joi.string()
 		.regex(/^\d+(,\d+)*$/)
@@ -82,6 +87,7 @@ export {
 	startDate,
 	endDate,
 	description,
+	remark,
 	ids,
 	status,
 	keyword,

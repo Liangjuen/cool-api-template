@@ -20,7 +20,8 @@ export class UserRepository extends Repository<User> {
 		endDate,
 		role,
 		status,
-		gender
+		gender,
+		departmentIds
 	}: IUserQuery): Promise<{
 		result: User[]
 		total: number
@@ -31,6 +32,10 @@ export class UserRepository extends Repository<User> {
 			(parseInt(page as string, 10) - 1) * parseInt(size as string, 10)
 		const take = parseInt(size as string, 10)
 		const query = this.createQueryBuilder('user')
+
+		if (departmentIds) {
+			query.andWhere('departmentId IN (:...departmentIds)', { departmentIds })
+		}
 
 		if (username) {
 			query.andWhere('username LIKE :username', {
@@ -56,6 +61,8 @@ export class UserRepository extends Repository<User> {
 				endDate
 			})
 		}
+
+		query.addOrderBy('createdAt', 'DESC')
 
 		const [result, total] = await query.skip(skip).take(take).getManyAndCount()
 

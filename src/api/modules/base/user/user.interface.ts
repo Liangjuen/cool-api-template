@@ -9,6 +9,7 @@ export interface IUserQuery extends IRequestQuery {
 	email?: string
 	role?: string
 	gender?: Gender
+	departmentIds?: number[]
 }
 
 /**

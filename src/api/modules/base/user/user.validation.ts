@@ -3,12 +3,13 @@ import { remove } from '@shared/validations'
 
 import {
 	id,
+	ids,
 	email,
 	role,
 	pagination,
 	startDate,
 	endDate,
-	description
+	remark
 } from '@shared/schemas'
 import {
 	password,
@@ -35,7 +36,8 @@ const list = {
 		gender: gender(),
 		status: status(),
 		startDate: startDate(),
-		endDate: endDate()
+		endDate: endDate(),
+		departmentIds: ids().allow(null).required()
 	})
 }
 
@@ -59,7 +61,7 @@ const update = {
 		oldPassword: password(),
 		roles: roles(),
 		gender: gender(),
-		description: description(),
+		remark: remark(),
 		tags: tags(),
 		avatar: avatar()
 	})
