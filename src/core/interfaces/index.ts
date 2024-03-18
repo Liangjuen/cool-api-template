@@ -6,9 +6,4 @@ export { CoolAppConfig } from './cool'
 export { IRequest } from './http-request'
 export { IAppRoute, IRoute, AppProvider } from './route'
 export { Type } from './type'
-export {
-	CoolFileConfig,
-	QINIUConfig,
-	LOCALConfig,
-	CoolFileEngine
-} from './file'
+export { CoolFileConfig, QINIUConfig, CoolFileEngine } from './file'
