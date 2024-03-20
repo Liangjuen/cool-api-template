@@ -46,13 +46,13 @@ const endDate = (): AnySchema =>
 	})
 
 const description = (): AnySchema =>
-	Joi.string().max(120).messages({
-		'string.max': '描述信息不超过 120 字'
+	Joi.string().max(200).messages({
+		'string.max': '描述信息不超过 200 字'
 	})
 
 const remark = (): AnySchema =>
-	Joi.string().max(120).messages({
-		'string.max': '备注信息不超过 120 字'
+	Joi.string().max(200).messages({
+		'string.max': '备注信息不超过 200 字'
 	})
 
 const ids = (): AnySchema =>

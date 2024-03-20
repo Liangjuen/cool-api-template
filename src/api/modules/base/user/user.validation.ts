@@ -9,7 +9,8 @@ import {
 	pagination,
 	startDate,
 	endDate,
-	remark
+	remark,
+	keyword
 } from '@shared/schemas'
 import {
 	password,
@@ -31,13 +32,13 @@ const list = {
 	query: Joi.object({
 		page: pagination('page'),
 		size: pagination('size'),
-		username: Joi.any(),
+		keyword: keyword(),
 		role: role(),
 		gender: gender(),
 		status: status(),
 		startDate: startDate(),
 		endDate: endDate(),
-		departmentIds: ids().allow(null).required()
+		departmentIds: ids().allow(null, '').required()
 	})
 }
 

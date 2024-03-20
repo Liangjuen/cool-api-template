@@ -37,7 +37,9 @@ const DataBase = new DatabaseConfiguration({
 	subscribers: [TYPEORM.SUBSCRIBERS],
 	synchronize: TYPEORM.SYNC,
 	logging: TYPEORM.LOG,
-	cache: TYPEORM.CACHE
+	cache: TYPEORM.CACHE,
+	dateStrings: true,
+	charset: 'utf8mb4'
 })
 
 export const DateSource = DataBase.source

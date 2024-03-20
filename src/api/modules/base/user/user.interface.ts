@@ -5,11 +5,11 @@ import { Status, Gender } from '@shared/enums'
 
 export interface IUserQuery extends IRequestQuery {
 	status?: Status
-	username?: string
+	keyword?: string
 	email?: string
 	role?: string
 	gender?: Gender
-	departmentIds?: number[]
+	departmentIds?: string
 }
 
 /**

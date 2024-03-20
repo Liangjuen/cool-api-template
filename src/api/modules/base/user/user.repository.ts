@@ -15,7 +15,7 @@ export class UserRepository extends Repository<User> {
 	async list({
 		page = 1,
 		size = 30,
-		username,
+		keyword,
 		startDate,
 		endDate,
 		role,
@@ -34,13 +34,21 @@ export class UserRepository extends Repository<User> {
 		const query = this.createQueryBuilder('user')
 
 		if (departmentIds) {
-			query.andWhere('departmentId IN (:...departmentIds)', { departmentIds })
+			const departIds = departmentIds.split(',').map(s => parseInt(s, 10))
+			query.andWhere('departmentId IN (:...departIds)', { departIds })
 		}
 
-		if (username) {
-			query.andWhere('username LIKE :username', {
-				username: '%' + username + '%'
-			})
+		if (keyword) {
+			query.andWhere(
+				'username LIKE :username OR name LIKE :name OR nickName LIKE :nickName OR phone LIKE :phone OR email LIKE :email',
+				{
+					username: '%' + keyword + '%',
+					name: '%' + keyword + '%',
+					nickName: '%' + keyword + '%',
+					phone: '%' + keyword + '%',
+					email: '%' + keyword + '%'
+				}
+			)
 		}
 
 		if (role) {
