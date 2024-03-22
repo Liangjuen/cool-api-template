@@ -19,9 +19,8 @@ export interface IUserRequest
 	extends Request<
 		IRequestParams,
 		any,
-		{
-			username?: string
-			email?: string
+		Partial<User> & {
+			departmentId?: string
 			password?: string
 			oldPassword?: string
 		},

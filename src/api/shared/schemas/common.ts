@@ -51,7 +51,7 @@ const description = (): AnySchema =>
 	})
 
 const remark = (): AnySchema =>
-	Joi.string().max(200).messages({
+	Joi.string().allow(null, '').max(200).messages({
 		'string.max': '备注信息不超过 200 字'
 	})
 

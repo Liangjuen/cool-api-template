@@ -3,7 +3,7 @@ import { RequestMethod as METHOD } from '@enums'
 import { IRoute } from '@interfaces'
 import { UserController } from './user.controller'
 import { Validator, Guard } from '@api/middlewares'
-import { get, list, create, update, remove } from './user.validation'
+import { get, list, create, update, remove, resetPass } from './user.validation'
 import { BasePermission } from '@shared/enums/permission.enum'
 
 export class UserRouter extends RouteModule {
@@ -44,6 +44,15 @@ export class UserRouter extends RouteModule {
 					UserController.update
 				],
 				method: METHOD.Patch
+			},
+			{
+				segment: '/password/:id',
+				middlewares: [
+					Guard.checkPermission(BasePermission.UserResetPassword),
+					Validator.check(resetPass),
+					UserController.resetPassword
+				],
+				method: METHOD.Post
 			},
 			{
 				segment: '/:ids',

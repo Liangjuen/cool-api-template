@@ -7,7 +7,7 @@ import { ROLE, Gender, Status } from '@shared/enums'
 @Entity()
 export class User extends BaseEntity implements IEntity {
 	@Index()
-	@Column({ comment: '部门ID', type: 'bigint', nullable: true })
+	@Column({ comment: '部门ID', nullable: true })
 	departmentId: number
 
 	@Column({ comment: '姓名', nullable: true })
@@ -23,7 +23,7 @@ export class User extends BaseEntity implements IEntity {
 	@Column({ comment: '昵称', nullable: true })
 	nickName: string
 
-	@Index({ unique: true })
+	@Index()
 	@Column({ comment: '邮箱', nullable: true })
 	email: string
 

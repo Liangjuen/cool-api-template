@@ -22,6 +22,18 @@ const username = (): AnySchema => {
 		})
 }
 
+const name = (): AnySchema => {
+	return Joi.string().max(20).messages({
+		'string.max': '姓名限制20位'
+	})
+}
+
+const nickName = (): AnySchema => {
+	return Joi.string().max(10).messages({
+		'string.max': '姓名限制10位'
+	})
+}
+
 const status = (): AnySchema => {
 	return Joi.number().valid(...list(Status))
 }
@@ -42,10 +54,24 @@ const avatar = (): AnySchema =>
 		})
 
 const tags = (): AnySchema =>
-	Joi.array().max(10).items(Joi.string().min(1).max(16)).messages({
+	Joi.array().allow(null).max(10).items(Joi.string().min(1).max(16)).messages({
 		'array.base': '标签未通过校验'
 	})
 
 const roles = (): AnySchema => Joi.array().items(Joi.string())
 
-export { password, username, status, gender, avatar, tags, roles }
+const phone = (): AnySchema =>
+	Joi.string().regex(/^(?:(?:\+|00)86)?1[3-9]\d{9}$/)
+
+export {
+	password,
+	username,
+	status,
+	gender,
+	avatar,
+	tags,
+	roles,
+	name,
+	nickName,
+	phone
+}

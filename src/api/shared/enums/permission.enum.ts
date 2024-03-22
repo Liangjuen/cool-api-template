@@ -9,6 +9,7 @@ export enum BasePermission {
 	UserGet = 'base:user:get',
 	UserCreate = 'base:user:create',
 	UserUpdate = 'base:user:update',
+	UserResetPassword = 'base:user:resetPassword',
 	UserRemove = 'base:user:remove',
 	RoleList = 'base:role:list',
 	RoleGet = 'base:role:get',

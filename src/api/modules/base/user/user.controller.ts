@@ -40,17 +40,32 @@ export class UserController {
 	@Resolve()
 	static async create(req: IUserRequest, res: IResponse) {
 		const repository = new UserRepository()
-		const findUser = await repository.findOneBy({ username: req.body.username })
+		const { username, name, nickName, phone, email, departmentId } = req.body
+		const userQuery = repository
+			.createQueryBuilder('user')
+			.where('user.username = :username', { username })
+			.orWhere('user.name = :name', { name })
+			.orWhere('user.nickName = :nickName', { nickName })
 
+		if (phone) userQuery.orWhere('user.phone = :phone', { phone })
+		if (email) userQuery.orWhere('user.email = :email', { email })
+
+		const findUser = await userQuery.getOne()
 		// 判断用户名、邮箱是否有重复
-		if (findUser) throw new BadRequest('用户名重复')
-		const findUserWithEmial = await repository.findOneBy({
-			email: req.body.email
-		})
-		if (findUserWithEmial) throw new BadRequest('邮箱已被注册')
-
+		if (findUser) {
+			if (findUser.username == username) throw new BadRequest('用户名重复')
+			if (findUser.name == name) throw new BadRequest('姓名重复')
+			if (findUser.nickName == nickName) throw new BadRequest('昵称重复')
+			if (findUser.phone == phone) throw new BadRequest('手机号已被注册')
+			if (findUser.email == email) throw new BadRequest('邮箱已被注册')
+		}
+		const password = '123456'
 		// 创建用户
-		const user = repository.create(req.body)
+		const user = repository.create({
+			...req.body,
+			password,
+			departmentId: parseInt(departmentId, 10)
+		})
 		const result = await repository.save(user)
 		delete result.password
 		res.locals.data = result
@@ -65,25 +80,11 @@ export class UserController {
 	static async update(req: IUserRequest, res: IResponse) {
 		const repository = new UserRepository()
 		const id = parseInt(req.params.id, 10)
+		const departmentId = parseInt(req.body.departmentId, 10)
 		let findUser: User
-
-		// 更新用户密码
-		if (req.body.password && req.body.oldPassword) {
-			if (req.body.password === req.body.oldPassword)
-				throw new BadRequest('新旧密码一致')
-			// 校验密码是否正确
-			const { result, user } = await repository.checkPassword(
-				id,
-				req.body.oldPassword
-			)
-			if (!result) throw new BadRequest('密码错误')
-			findUser = user
-		} else {
-			findUser = await repository.findOneByOrFail({ id })
-		}
-
-		repository.merge(findUser, req.body)
-		await findUser.hashPassword()
+		findUser = await repository.findOneBy({ id })
+		repository.merge(findUser, { ...req.body, departmentId })
+		if (req.body.password) await findUser.hashPassword()
 		await repository.save(findUser)
 		res.locals.data = findUser
 	}
@@ -98,5 +99,21 @@ export class UserController {
 		const repository = new UserRepository()
 		const ids = (req.params.ids as string).split(',').map(s => parseInt(s, 10))
 		void (await repository.delete(ids))
+	}
+
+	/**
+	 * @description 重置密码
+	 * @param req
+	 * @param res
+	 */
+	@Resolve()
+	static async resetPassword(req: IUserRequest, res: IResponse) {
+		const rep = new UserRepository()
+		const { password } = req.body
+		const id = parseInt(req.params.id, 10)
+		const user = await rep.findOneBy({ id })
+		rep.merge(user, { password })
+		await user.hashPassword()
+		res.locals.data = user
 	}
 }

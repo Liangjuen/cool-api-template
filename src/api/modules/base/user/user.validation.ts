@@ -19,7 +19,10 @@ import {
 	gender,
 	tags,
 	roles,
-	avatar
+	avatar,
+	name,
+	nickName,
+	phone
 } from './user.schemas'
 
 const get = {
@@ -45,10 +48,17 @@ const list = {
 const create = {
 	body: Joi.object({
 		username: username().required(),
-		email: email().required(),
-		password: password().required(),
-		role: role(),
-		gender: gender()
+		name: name(),
+		nickName: nickName(),
+		email: email().allow(null, ''),
+		phone: phone().allow(null, ''),
+		roles: roles().required(),
+		status: status(),
+		gender: gender(),
+		remark: remark().allow(null, ''),
+		tags: tags().allow(null, ''),
+		avatar: avatar().allow(null, ''),
+		departmentId: id().required()
 	})
 }
 
@@ -58,14 +68,28 @@ const update = {
 	}),
 	body: Joi.object({
 		username: username(),
+		name: name(),
+		nickName: nickName(),
+		email: email().allow(null, ''),
+		phone: phone().allow(null, ''),
+		status: status(),
 		password: password(),
-		oldPassword: password(),
 		roles: roles(),
 		gender: gender(),
-		remark: remark(),
-		tags: tags(),
-		avatar: avatar()
+		remark: remark().allow(null, ''),
+		tags: tags().allow(null, ''),
+		avatar: avatar().allow(null, ''),
+		departmentId: id()
 	})
 }
 
-export { get, list, create, update, remove }
+const resetPass = {
+	params: Joi.object({
+		id: id().required()
+	}),
+	body: Joi.object({
+		password: password().required()
+	})
+}
+
+export { get, list, create, update, remove, resetPass }
