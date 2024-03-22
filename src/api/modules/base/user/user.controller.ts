@@ -112,8 +112,9 @@ export class UserController {
 		const { password } = req.body
 		const id = parseInt(req.params.id, 10)
 		const user = await rep.findOneBy({ id })
-		rep.merge(user, { password })
-		await user.hashPassword()
-		res.locals.data = user
+		const mergeUser = rep.merge(user, { password })
+		await mergeUser.hashPassword()
+		rep.save(mergeUser)
+		res.locals.data = mergeUser
 	}
 }
