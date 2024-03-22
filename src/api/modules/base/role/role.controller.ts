@@ -4,6 +4,7 @@ import { RoleRepository } from './role.repository'
 import { IRoleRrequest } from './role.interface'
 import { MenuRepository } from '@api/modules/base/menu/menu.repository'
 import { BadRequest } from '@exceptions'
+import { RoleCache } from '@api/services/role.cache.service'
 
 export class RoleController {
 	/**
@@ -60,7 +61,8 @@ export class RoleController {
 			menuIdList,
 			perms
 		})
-
+		// 更新缓存
+		await RoleCache.set()
 		res.locals.data = await repository.save(newRole)
 	}
 
@@ -89,6 +91,9 @@ export class RoleController {
 		})
 
 		await repository.save(role)
+
+		// 更新缓存
+		await RoleCache.set()
 		res.locals.data = await repository.save(role)
 	}
 
@@ -97,5 +102,7 @@ export class RoleController {
 		const repository = new RoleRepository()
 		const ids = (req.params.ids as string).split(',').map(s => parseInt(s, 10))
 		void (await repository.delete(ids))
+		// 更新缓存
+		await RoleCache.set()
 	}
 }

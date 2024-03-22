@@ -20,6 +20,7 @@ export class RoleCache {
 			})
 			const value = JSON.stringify(rolePerm)
 			await CacheService.engine.set(RoleCache.key, value)
+			Logger.info('更新缓存成功!', { context: 'RoleCache' })
 		} catch (error) {
 			Logger.error(`role缓存错误: ${error}`, { context: 'RoleCache' })
 		}
