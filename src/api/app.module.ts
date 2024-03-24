@@ -13,6 +13,7 @@ import { MenuRouter } from './modules/base/menu/menu.router'
 import { PermsRouter } from './modules/base/perms/perms.router'
 import { DepartmentRouter } from './modules/base/department/department.router'
 import { FileRouter } from './modules/common/file/file.router'
+import { PersonRouter } from './modules/base/user/person/person.router'
 
 export class AppModule extends Module {
 	importAuth() {
@@ -35,6 +36,7 @@ export class AppModule extends Module {
 			{ segment: '/v1/departments', auth: true, provider: DepartmentRouter },
 			{ segment: '/v1/dicts', auth: true, provider: DictRouter },
 			{ segment: '/v1/files', provider: FileRouter },
+			{ segment: '/v1/persons', auth: true, provider: PersonRouter },
 			{
 				segment: '/v1/dictTypes',
 				auth: true,
