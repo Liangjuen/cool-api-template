@@ -1,2 +1,7 @@
-export { IEntity as IBaseEntity, IResponse, IRequest } from '@interfaces'
-export { IRequestQuery, IRequestParams } from './request.interface'
+export { IEntity as IBaseEntity, IResponse } from '@interfaces'
+export {
+	IRequestQuery,
+	IRequestParams,
+	IRequest,
+	JwtPayload
+} from './request.interface'
