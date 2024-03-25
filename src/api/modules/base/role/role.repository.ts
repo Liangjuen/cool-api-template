@@ -1,9 +1,10 @@
-import { Repository } from 'typeorm'
+import { Repository, Brackets } from 'typeorm'
 import { DateSource } from '@config'
 import { Role } from './role.entity'
 import { IRoleQuery } from './role.interface'
 import { toSkipAndTake } from '@shared/utils/query'
 import { Status } from '@shared/enums'
+import { BadRequest } from '@exceptions'
 
 export class RoleRepository extends Repository<Role> {
 	constructor() {
@@ -51,5 +52,37 @@ export class RoleRepository extends Repository<Role> {
 
 	async allFali() {
 		return await this.findBy({ status: Status.normal })
+	}
+
+	/**
+	 * @description 检查字段是否存在冲突(更新/创建)，更新时传入 id
+	 * @param param
+	 */
+	async checkIfFieldsExist({
+		id,
+		name,
+		code
+	}: {
+		id?: number
+		name: string
+		code: string
+	}) {
+		const roleQuery = this.createQueryBuilder('role')
+
+		roleQuery.where(
+			new Brackets(qb => {
+				qb.where('role.name = :name', { name }).orWhere('role.code = :code', {
+					code
+				})
+			})
+		)
+
+		if (id) roleQuery.andWhere('role.id != :id', { id })
+
+		const findRole = await roleQuery.getOne()
+		if (findRole) {
+			if (findRole.name == name) throw new BadRequest('名称已被占用')
+			if (findRole.code == code) throw new BadRequest('编码已被占用')
+		}
 	}
 }

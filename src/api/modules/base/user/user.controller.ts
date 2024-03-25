@@ -1,5 +1,5 @@
 import { IRequest, IResponse } from '@interfaces'
-import { NotFound, BadRequest } from '@exceptions'
+import { NotFound } from '@exceptions'
 import { Resolve } from '@decorators'
 import { User } from './user.entity'
 import { IUserRequest } from './user.interface'
@@ -40,25 +40,15 @@ export class UserController {
 	@Resolve()
 	static async create(req: IUserRequest, res: IResponse) {
 		const repository = new UserRepository()
-		const { username, name, nickName, phone, email, departmentId } = req.body
-		const userQuery = repository
-			.createQueryBuilder('user')
-			.where('user.username = :username', { username })
-			.orWhere('user.name = :name', { name })
-			.orWhere('user.nickName = :nickName', { nickName })
+		const { username, nickName, phone, email, departmentId } = req.body
 
-		if (phone) userQuery.orWhere('user.phone = :phone', { phone })
-		if (email) userQuery.orWhere('user.email = :email', { email })
+		await repository.checkIfFieldsExist({
+			username,
+			phone,
+			email,
+			nickName
+		})
 
-		const findUser = await userQuery.getOne()
-		// 判断用户名、邮箱是否有重复
-		if (findUser) {
-			if (findUser.username == username) throw new BadRequest('用户名重复')
-			if (findUser.name == name) throw new BadRequest('姓名重复')
-			if (findUser.nickName == nickName) throw new BadRequest('昵称重复')
-			if (findUser.phone == phone) throw new BadRequest('手机号已被注册')
-			if (findUser.email == email) throw new BadRequest('邮箱已被注册')
-		}
 		const password = '123456'
 		// 创建用户
 		const user = repository.create({
@@ -78,9 +68,19 @@ export class UserController {
 	 */
 	@Resolve()
 	static async update(req: IUserRequest, res: IResponse) {
+		const { username, phone, email, nickName } = req.body
 		const repository = new UserRepository()
 		const id = parseInt(req.params.id, 10)
 		const departmentId = parseInt(req.body.departmentId, 10)
+
+		await repository.checkIfFieldsExist({
+			username,
+			phone,
+			email,
+			nickName,
+			id
+		})
+
 		let findUser: User
 		findUser = await repository.findOneBy({ id })
 		repository.merge(findUser, { ...req.body, departmentId })

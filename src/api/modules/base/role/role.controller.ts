@@ -3,7 +3,6 @@ import { Resolve } from '@decorators'
 import { RoleRepository } from './role.repository'
 import { IRoleRrequest } from './role.interface'
 import { MenuRepository } from '@api/modules/base/menu/menu.repository'
-import { BadRequest } from '@exceptions'
 import { RoleCache } from '@api/services/role.cache.service'
 
 export class RoleController {
@@ -40,16 +39,11 @@ export class RoleController {
 	static async create(req: IRoleRrequest, res: IResponse) {
 		const { name, code, remark, menuIdList } = req.body
 		const repository = new RoleRepository()
-		const findRole = await repository
-			.createQueryBuilder('role')
-			.where('role.name = :name', { name })
-			.orWhere('role.code = :code', { code })
-			.getOne()
 
-		if (findRole) {
-			if (findRole.name == name) throw new BadRequest('角色名已被占用')
-			if (findRole.code == code) throw new BadRequest('角色编码已被占用')
-		}
+		await repository.checkIfFieldsExist({
+			name,
+			code
+		})
 
 		const menuRepo = new MenuRepository()
 		const { perms } = await menuRepo.getMenus(menuIdList)
@@ -72,12 +66,11 @@ export class RoleController {
 		const id = parseInt(req.params.id, 10)
 		const repository = new RoleRepository()
 
-		const findRole = await repository.findOne({ where: [{ name }, { code }] })
-
-		if (findRole && findRole.id !== id) {
-			if (findRole.name == name) throw new BadRequest('角色名已被占用')
-			if (findRole.code == code) throw new BadRequest('角色编码已被占用')
-		}
+		await repository.checkIfFieldsExist({
+			id,
+			name,
+			code
+		})
 
 		const role = await repository.findOneBy({ id })
 		const menuRepo = new MenuRepository()

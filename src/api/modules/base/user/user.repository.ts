@@ -1,7 +1,8 @@
-import { Repository } from 'typeorm'
+import { Repository, Brackets } from 'typeorm'
 import { DateSource } from '@config'
 import { User } from './user.entity'
 import { IUserQuery } from './user.interface'
+import { BadRequest } from '@exceptions'
 
 export class UserRepository extends Repository<User> {
 	constructor() {
@@ -116,5 +117,47 @@ export class UserRepository extends Repository<User> {
 		const result = await user.passwordMatches(password)
 		delete user.password
 		return { user, result }
+	}
+
+	/**
+	 * @description 检查字段是否存在冲突(更新/创建)
+	 * @param param
+	 */
+	async checkIfFieldsExist({
+		id,
+		username,
+		nickName,
+		email,
+		phone
+	}: {
+		id?: number
+		username: string
+		nickName: string
+		email?: string
+		phone?: string
+	}) {
+		const personQuery = this.createQueryBuilder('user').where(
+			new Brackets(qb => {
+				qb.where('user.username = :username', { username }).orWhere(
+					'user.nickName = :nickName',
+					{ nickName }
+				)
+
+				if (phone) qb.orWhere('user.phone = :phone', { phone })
+				if (email) qb.orWhere('user.email = :email', { email })
+			})
+		)
+
+		if (id) personQuery.andWhere('user.id != :id', { id })
+
+		const findPerson = await personQuery.getOne()
+
+		if (findPerson) {
+			if (findPerson.username == username)
+				throw new BadRequest('用户名已被占用')
+			if (findPerson.nickName == nickName) throw new BadRequest('昵称已被占用')
+			if (findPerson.phone == phone) throw new BadRequest('手机号名已被占用')
+			if (findPerson.email == email) throw new BadRequest('邮箱已被占用')
+		}
 	}
 }

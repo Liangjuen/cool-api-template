@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import { User } from './user.entity'
-import { IRequestParams, IRequestQuery } from '@shared/interfaces'
+import { IRequestParams, IRequestQuery, JwtPayload } from '@shared/interfaces'
 import { Status, Gender } from '@shared/enums'
 
 export interface IUserQuery extends IRequestQuery {
@@ -26,5 +26,5 @@ export interface IUserRequest
 		},
 		IUserQuery
 	> {
-	user?: User | Record<string, unknown>
+	user?: JwtPayload
 }
